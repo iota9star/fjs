@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "ES2020",
+    "lib": [
+      "ES2020",
+      "dom"
+    ],
+    "sourceMap": false,
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": [
+      "jest",
+      "node"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleDetection": "force",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "isolatedModules": true
+  },
+  "include": [
+    "globals.d.ts",
+    "**/*.ts",
+    "**/*.d.ts"
+  ]
+}

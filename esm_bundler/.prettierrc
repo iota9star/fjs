@@ -1,0 +1,15 @@
+{
+  "printWidth": 120,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "useTabs": false,
+  "semi": true,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "jsxBracketSameLine": true,
+  "arrowParens": "always",
+  "requirePragma": false,
+  "insertPragma": false,
+  "importOrder": ["^@formily/(.*)", "^@(.*)$", "^[./]"],
+  "importOrderSeparation": true
+}

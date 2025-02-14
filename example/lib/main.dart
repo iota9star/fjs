@@ -1,5 +1,6 @@
 import 'package:fjs/fjs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 Future<void> main() async {
   await LibFjs.init();
@@ -32,6 +33,15 @@ export async function test(){
                 return arguments;
 }
     """;
+final jsCtx = (() async {
+  final test = await rootBundle.loadString("assets/test.js");
+  final rt = AsyncRuntime();
+  await rt.setModules(modules: [
+    JsModule.code("test", test),
+    const JsModule.code("test2", codes),
+  ]);
+  return AsyncContext.full(rt: rt);
+})();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -45,15 +55,15 @@ class MyApp extends StatelessWidget {
           children: [
             ElevatedButton(
                 onPressed: () async {
-                  var rt = AsyncRuntime();
-                  await rt.setModules(modules: [
-                    const JsModule.code("test", "export async function test(){return fetch('https://httpbin.org/post', { method: 'POST', body: [\"hello\", \"world\"] }).then((res) => res.json())}"),
-                  ]);
-                  var context = await AsyncContext.full(rt: rt);
-                  context.eval(code: "1n+1n").then((value) => print(value));
-                  context
-                      .evalFunction(module: "test", method: "test")
-                      .then((value) => print(value.ok.value));
+                  final ctx = await jsCtx;
+                  ctx.eval(code: "1n+1n").then((value) => print(value));
+                  ctx.evalFunction(module: "test", method: "price", params: [
+                    JsValue.from(
+                        "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN,So11111111111111111111111111111111111111112"
+                            .split(","))
+                  ]).then((value) => print(value.ok.value));
+                  ctx.evalFunction(module: 'test2', method: 'test')
+                      .then((value) => print(value));
                 },
                 child: Text("fetch")),
           ],
