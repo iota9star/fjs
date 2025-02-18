@@ -9,30 +9,30 @@ import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 import 'value.dart';
 part 'js.freezed.dart';
 
-// These functions are ignored because they are not marked as `pub`: `from_promise_result`, `into`
+// These functions are ignored because they are not marked as `pub`: `from_promise_result`, `from_result`, `into`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `clone`, `cmp`, `eq`, `fmt`, `fmt`, `hash`, `partial_cmp`
 
-// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<AsyncContext>>
-abstract class AsyncContext implements RustOpaqueInterface {
-  Future<EvalResult> eval({required String code});
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<JsAsyncContext>>
+abstract class JsAsyncContext implements RustOpaqueInterface {
+  Future<JsEvalResult> eval({required String code});
 
-  Future<EvalResult> evalFile({required String path});
+  Future<JsEvalResult> evalFile({required String path});
 
-  Future<EvalResult> evalFileWithOptions(
-      {required String path, required EvalOptions options});
+  Future<JsEvalResult> evalFileWithOptions(
+      {required String path, required JsEvalOptions options});
 
-  Future<EvalResult> evalFunction(
+  Future<JsEvalResult> evalFunction(
       {required String module, required String method, List<JsValue>? params});
 
-  Future<EvalResult> evalWithOptions(
-      {required String code, required EvalOptions options});
+  Future<JsEvalResult> evalWithOptions(
+      {required String code, required JsEvalOptions options});
 
-  static Future<AsyncContext> full({required AsyncRuntime rt}) =>
-      LibFjs.instance.api.crateApiJsAsyncContextFull(rt: rt);
+  static Future<JsAsyncContext> from({required JsAsyncRuntime rt}) =>
+      LibFjs.instance.api.crateApiJsJsAsyncContextFrom(rt: rt);
 }
 
-// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<AsyncRuntime>>
-abstract class AsyncRuntime implements RustOpaqueInterface {
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<JsAsyncRuntime>>
+abstract class JsAsyncRuntime implements RustOpaqueInterface {
   Future<bool> executePendingJob();
 
   Future<void> idle();
@@ -41,15 +41,58 @@ abstract class AsyncRuntime implements RustOpaqueInterface {
 
   Future<MemoryUsage> memoryUsage();
 
-  factory AsyncRuntime() => LibFjs.instance.api.crateApiJsAsyncRuntimeNew();
+  factory JsAsyncRuntime() => LibFjs.instance.api.crateApiJsJsAsyncRuntimeNew();
 
   Future<void> runGc();
 
   Future<void> setGcThreshold({required BigInt threshold});
 
+  Future<void> setInfo({required String info});
+
   Future<void> setMaxStackSize({required BigInt limit});
 
   Future<void> setMemoryLimit({required BigInt limit});
+
+  Future<void> setModules({required List<JsModule> modules});
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<JsContext>>
+abstract class JsContext implements RustOpaqueInterface {
+  JsEvalResult eval({required String code});
+
+  JsEvalResult evalFile({required String path});
+
+  JsEvalResult evalFileWithOptions(
+      {required String path, required JsEvalOptions options});
+
+  JsEvalResult evalWithOptions(
+      {required String code, required JsEvalOptions options});
+
+  factory JsContext({required JsRuntime rt}) =>
+      LibFjs.instance.api.crateApiJsJsContextNew(rt: rt);
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<JsRuntime>>
+abstract class JsRuntime implements RustOpaqueInterface {
+  bool executePendingJob();
+
+  bool isJobPending();
+
+  MemoryUsage memoryUsage();
+
+  factory JsRuntime() => LibFjs.instance.api.crateApiJsJsRuntimeNew();
+
+  void runGc();
+
+  void setDumpFlags({required BigInt flags});
+
+  void setGcThreshold({required BigInt threshold});
+
+  void setInfo({required String info});
+
+  void setMaxStackSize({required BigInt limit});
+
+  void setMemoryLimit({required BigInt limit});
 
   Future<void> setModules({required List<JsModule> modules});
 }
@@ -59,31 +102,32 @@ abstract class MemoryUsage implements RustOpaqueInterface {}
 
 @freezed
 @immutable
-class EvalOptions with _$EvalOptions {
-  const EvalOptions._();
-  const factory EvalOptions.raw({
+class JsEvalOptions with _$JsEvalOptions {
+  const JsEvalOptions._();
+  const factory JsEvalOptions.raw({
     required bool global,
     required bool strict,
     required bool backtraceBarrier,
-  }) = _EvalOptions;
-  factory EvalOptions() => LibFjs.instance.api.crateApiJsEvalOptionsNew();
+    required bool promise,
+  }) = _JsEvalOptions;
+  factory JsEvalOptions() => LibFjs.instance.api.crateApiJsJsEvalOptionsNew();
 }
 
 @freezed
-sealed class EvalResult with _$EvalResult {
-  const EvalResult._();
+sealed class JsEvalResult with _$JsEvalResult {
+  const JsEvalResult._();
 
-  const factory EvalResult.ok(
+  const factory JsEvalResult.ok(
     JsValue field0,
-  ) = EvalResult_Ok;
-  const factory EvalResult.err(
+  ) = JsEvalResult_Ok;
+  const factory JsEvalResult.err(
     String field0,
-  ) = EvalResult_Err;
+  ) = JsEvalResult_Err;
 
-  bool get isOk => this is EvalResult_Ok;
-  bool get isErr => this is EvalResult_Err;
-  JsValue get ok => (this as EvalResult_Ok).field0;
-  String get err => (this as EvalResult_Err).field0;
+  bool get isOk => this is JsEvalResult_Ok;
+  bool get isErr => this is JsEvalResult_Err;
+  JsValue get ok => (this as JsEvalResult_Ok).field0;
+  String get err => (this as JsEvalResult_Err).field0;
 }
 
 @freezed

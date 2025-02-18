@@ -15,71 +15,77 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$EvalOptions {
+mixin _$JsEvalOptions {
   bool get global => throw _privateConstructorUsedError;
   bool get strict => throw _privateConstructorUsedError;
   bool get backtraceBarrier => throw _privateConstructorUsedError;
+  bool get promise => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool global, bool strict, bool backtraceBarrier)
+    required TResult Function(
+            bool global, bool strict, bool backtraceBarrier, bool promise)
         raw,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool global, bool strict, bool backtraceBarrier)? raw,
+    TResult? Function(
+            bool global, bool strict, bool backtraceBarrier, bool promise)?
+        raw,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool global, bool strict, bool backtraceBarrier)? raw,
+    TResult Function(
+            bool global, bool strict, bool backtraceBarrier, bool promise)?
+        raw,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_EvalOptions value) raw,
+    required TResult Function(_JsEvalOptions value) raw,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_EvalOptions value)? raw,
+    TResult? Function(_JsEvalOptions value)? raw,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_EvalOptions value)? raw,
+    TResult Function(_JsEvalOptions value)? raw,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 
-  /// Create a copy of EvalOptions
+  /// Create a copy of JsEvalOptions
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $EvalOptionsCopyWith<EvalOptions> get copyWith =>
+  $JsEvalOptionsCopyWith<JsEvalOptions> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $EvalOptionsCopyWith<$Res> {
-  factory $EvalOptionsCopyWith(
-          EvalOptions value, $Res Function(EvalOptions) then) =
-      _$EvalOptionsCopyWithImpl<$Res, EvalOptions>;
+abstract class $JsEvalOptionsCopyWith<$Res> {
+  factory $JsEvalOptionsCopyWith(
+          JsEvalOptions value, $Res Function(JsEvalOptions) then) =
+      _$JsEvalOptionsCopyWithImpl<$Res, JsEvalOptions>;
   @useResult
-  $Res call({bool global, bool strict, bool backtraceBarrier});
+  $Res call({bool global, bool strict, bool backtraceBarrier, bool promise});
 }
 
 /// @nodoc
-class _$EvalOptionsCopyWithImpl<$Res, $Val extends EvalOptions>
-    implements $EvalOptionsCopyWith<$Res> {
-  _$EvalOptionsCopyWithImpl(this._value, this._then);
+class _$JsEvalOptionsCopyWithImpl<$Res, $Val extends JsEvalOptions>
+    implements $JsEvalOptionsCopyWith<$Res> {
+  _$JsEvalOptionsCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of EvalOptions
+  /// Create a copy of JsEvalOptions
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -87,6 +93,7 @@ class _$EvalOptionsCopyWithImpl<$Res, $Val extends EvalOptions>
     Object? global = null,
     Object? strict = null,
     Object? backtraceBarrier = null,
+    Object? promise = null,
   }) {
     return _then(_value.copyWith(
       global: null == global
@@ -101,30 +108,34 @@ class _$EvalOptionsCopyWithImpl<$Res, $Val extends EvalOptions>
           ? _value.backtraceBarrier
           : backtraceBarrier // ignore: cast_nullable_to_non_nullable
               as bool,
+      promise: null == promise
+          ? _value.promise
+          : promise // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$EvalOptionsImplCopyWith<$Res>
-    implements $EvalOptionsCopyWith<$Res> {
-  factory _$$EvalOptionsImplCopyWith(
-          _$EvalOptionsImpl value, $Res Function(_$EvalOptionsImpl) then) =
-      __$$EvalOptionsImplCopyWithImpl<$Res>;
+abstract class _$$JsEvalOptionsImplCopyWith<$Res>
+    implements $JsEvalOptionsCopyWith<$Res> {
+  factory _$$JsEvalOptionsImplCopyWith(
+          _$JsEvalOptionsImpl value, $Res Function(_$JsEvalOptionsImpl) then) =
+      __$$JsEvalOptionsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool global, bool strict, bool backtraceBarrier});
+  $Res call({bool global, bool strict, bool backtraceBarrier, bool promise});
 }
 
 /// @nodoc
-class __$$EvalOptionsImplCopyWithImpl<$Res>
-    extends _$EvalOptionsCopyWithImpl<$Res, _$EvalOptionsImpl>
-    implements _$$EvalOptionsImplCopyWith<$Res> {
-  __$$EvalOptionsImplCopyWithImpl(
-      _$EvalOptionsImpl _value, $Res Function(_$EvalOptionsImpl) _then)
+class __$$JsEvalOptionsImplCopyWithImpl<$Res>
+    extends _$JsEvalOptionsCopyWithImpl<$Res, _$JsEvalOptionsImpl>
+    implements _$$JsEvalOptionsImplCopyWith<$Res> {
+  __$$JsEvalOptionsImplCopyWithImpl(
+      _$JsEvalOptionsImpl _value, $Res Function(_$JsEvalOptionsImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of EvalOptions
+  /// Create a copy of JsEvalOptions
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -132,8 +143,9 @@ class __$$EvalOptionsImplCopyWithImpl<$Res>
     Object? global = null,
     Object? strict = null,
     Object? backtraceBarrier = null,
+    Object? promise = null,
   }) {
-    return _then(_$EvalOptionsImpl(
+    return _then(_$JsEvalOptionsImpl(
       global: null == global
           ? _value.global
           : global // ignore: cast_nullable_to_non_nullable
@@ -146,17 +158,22 @@ class __$$EvalOptionsImplCopyWithImpl<$Res>
           ? _value.backtraceBarrier
           : backtraceBarrier // ignore: cast_nullable_to_non_nullable
               as bool,
+      promise: null == promise
+          ? _value.promise
+          : promise // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 
-class _$EvalOptionsImpl extends _EvalOptions {
-  const _$EvalOptionsImpl(
+class _$JsEvalOptionsImpl extends _JsEvalOptions {
+  const _$JsEvalOptionsImpl(
       {required this.global,
       required this.strict,
-      required this.backtraceBarrier})
+      required this.backtraceBarrier,
+      required this.promise})
       : super._();
 
   @override
@@ -165,60 +182,68 @@ class _$EvalOptionsImpl extends _EvalOptions {
   final bool strict;
   @override
   final bool backtraceBarrier;
+  @override
+  final bool promise;
 
   @override
   String toString() {
-    return 'EvalOptions.raw(global: $global, strict: $strict, backtraceBarrier: $backtraceBarrier)';
+    return 'JsEvalOptions.raw(global: $global, strict: $strict, backtraceBarrier: $backtraceBarrier, promise: $promise)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$EvalOptionsImpl &&
+            other is _$JsEvalOptionsImpl &&
             (identical(other.global, global) || other.global == global) &&
             (identical(other.strict, strict) || other.strict == strict) &&
             (identical(other.backtraceBarrier, backtraceBarrier) ||
-                other.backtraceBarrier == backtraceBarrier));
+                other.backtraceBarrier == backtraceBarrier) &&
+            (identical(other.promise, promise) || other.promise == promise));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, global, strict, backtraceBarrier);
+      Object.hash(runtimeType, global, strict, backtraceBarrier, promise);
 
-  /// Create a copy of EvalOptions
+  /// Create a copy of JsEvalOptions
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$EvalOptionsImplCopyWith<_$EvalOptionsImpl> get copyWith =>
-      __$$EvalOptionsImplCopyWithImpl<_$EvalOptionsImpl>(this, _$identity);
+  _$$JsEvalOptionsImplCopyWith<_$JsEvalOptionsImpl> get copyWith =>
+      __$$JsEvalOptionsImplCopyWithImpl<_$JsEvalOptionsImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool global, bool strict, bool backtraceBarrier)
+    required TResult Function(
+            bool global, bool strict, bool backtraceBarrier, bool promise)
         raw,
   }) {
-    return raw(global, strict, backtraceBarrier);
+    return raw(global, strict, backtraceBarrier, promise);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool global, bool strict, bool backtraceBarrier)? raw,
+    TResult? Function(
+            bool global, bool strict, bool backtraceBarrier, bool promise)?
+        raw,
   }) {
-    return raw?.call(global, strict, backtraceBarrier);
+    return raw?.call(global, strict, backtraceBarrier, promise);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool global, bool strict, bool backtraceBarrier)? raw,
+    TResult Function(
+            bool global, bool strict, bool backtraceBarrier, bool promise)?
+        raw,
     required TResult orElse(),
   }) {
     if (raw != null) {
-      return raw(global, strict, backtraceBarrier);
+      return raw(global, strict, backtraceBarrier, promise);
     }
     return orElse();
   }
@@ -226,7 +251,7 @@ class _$EvalOptionsImpl extends _EvalOptions {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_EvalOptions value) raw,
+    required TResult Function(_JsEvalOptions value) raw,
   }) {
     return raw(this);
   }
@@ -234,7 +259,7 @@ class _$EvalOptionsImpl extends _EvalOptions {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_EvalOptions value)? raw,
+    TResult? Function(_JsEvalOptions value)? raw,
   }) {
     return raw?.call(this);
   }
@@ -242,7 +267,7 @@ class _$EvalOptionsImpl extends _EvalOptions {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_EvalOptions value)? raw,
+    TResult Function(_JsEvalOptions value)? raw,
     required TResult orElse(),
   }) {
     if (raw != null) {
@@ -252,12 +277,13 @@ class _$EvalOptionsImpl extends _EvalOptions {
   }
 }
 
-abstract class _EvalOptions extends EvalOptions {
-  const factory _EvalOptions(
+abstract class _JsEvalOptions extends JsEvalOptions {
+  const factory _JsEvalOptions(
       {required final bool global,
       required final bool strict,
-      required final bool backtraceBarrier}) = _$EvalOptionsImpl;
-  const _EvalOptions._() : super._();
+      required final bool backtraceBarrier,
+      required final bool promise}) = _$JsEvalOptionsImpl;
+  const _JsEvalOptions._() : super._();
 
   @override
   bool get global;
@@ -265,17 +291,19 @@ abstract class _EvalOptions extends EvalOptions {
   bool get strict;
   @override
   bool get backtraceBarrier;
+  @override
+  bool get promise;
 
-  /// Create a copy of EvalOptions
+  /// Create a copy of JsEvalOptions
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$EvalOptionsImplCopyWith<_$EvalOptionsImpl> get copyWith =>
+  _$$JsEvalOptionsImplCopyWith<_$JsEvalOptionsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-mixin _$EvalResult {
+mixin _$JsEvalResult {
   Object get field0 => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -298,51 +326,51 @@ mixin _$EvalResult {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(EvalResult_Ok value) ok,
-    required TResult Function(EvalResult_Err value) err,
+    required TResult Function(JsEvalResult_Ok value) ok,
+    required TResult Function(JsEvalResult_Err value) err,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(EvalResult_Ok value)? ok,
-    TResult? Function(EvalResult_Err value)? err,
+    TResult? Function(JsEvalResult_Ok value)? ok,
+    TResult? Function(JsEvalResult_Err value)? err,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(EvalResult_Ok value)? ok,
-    TResult Function(EvalResult_Err value)? err,
+    TResult Function(JsEvalResult_Ok value)? ok,
+    TResult Function(JsEvalResult_Err value)? err,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $EvalResultCopyWith<$Res> {
-  factory $EvalResultCopyWith(
-          EvalResult value, $Res Function(EvalResult) then) =
-      _$EvalResultCopyWithImpl<$Res, EvalResult>;
+abstract class $JsEvalResultCopyWith<$Res> {
+  factory $JsEvalResultCopyWith(
+          JsEvalResult value, $Res Function(JsEvalResult) then) =
+      _$JsEvalResultCopyWithImpl<$Res, JsEvalResult>;
 }
 
 /// @nodoc
-class _$EvalResultCopyWithImpl<$Res, $Val extends EvalResult>
-    implements $EvalResultCopyWith<$Res> {
-  _$EvalResultCopyWithImpl(this._value, this._then);
+class _$JsEvalResultCopyWithImpl<$Res, $Val extends JsEvalResult>
+    implements $JsEvalResultCopyWith<$Res> {
+  _$JsEvalResultCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of EvalResult
+  /// Create a copy of JsEvalResult
   /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
-abstract class _$$EvalResult_OkImplCopyWith<$Res> {
-  factory _$$EvalResult_OkImplCopyWith(
-          _$EvalResult_OkImpl value, $Res Function(_$EvalResult_OkImpl) then) =
-      __$$EvalResult_OkImplCopyWithImpl<$Res>;
+abstract class _$$JsEvalResult_OkImplCopyWith<$Res> {
+  factory _$$JsEvalResult_OkImplCopyWith(_$JsEvalResult_OkImpl value,
+          $Res Function(_$JsEvalResult_OkImpl) then) =
+      __$$JsEvalResult_OkImplCopyWithImpl<$Res>;
   @useResult
   $Res call({JsValue field0});
 
@@ -350,21 +378,21 @@ abstract class _$$EvalResult_OkImplCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$EvalResult_OkImplCopyWithImpl<$Res>
-    extends _$EvalResultCopyWithImpl<$Res, _$EvalResult_OkImpl>
-    implements _$$EvalResult_OkImplCopyWith<$Res> {
-  __$$EvalResult_OkImplCopyWithImpl(
-      _$EvalResult_OkImpl _value, $Res Function(_$EvalResult_OkImpl) _then)
+class __$$JsEvalResult_OkImplCopyWithImpl<$Res>
+    extends _$JsEvalResultCopyWithImpl<$Res, _$JsEvalResult_OkImpl>
+    implements _$$JsEvalResult_OkImplCopyWith<$Res> {
+  __$$JsEvalResult_OkImplCopyWithImpl(
+      _$JsEvalResult_OkImpl _value, $Res Function(_$JsEvalResult_OkImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of EvalResult
+  /// Create a copy of JsEvalResult
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? field0 = null,
   }) {
-    return _then(_$EvalResult_OkImpl(
+    return _then(_$JsEvalResult_OkImpl(
       null == field0
           ? _value.field0
           : field0 // ignore: cast_nullable_to_non_nullable
@@ -372,7 +400,7 @@ class __$$EvalResult_OkImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of EvalResult
+  /// Create a copy of JsEvalResult
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -385,35 +413,36 @@ class __$$EvalResult_OkImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$EvalResult_OkImpl extends EvalResult_Ok {
-  const _$EvalResult_OkImpl(this.field0) : super._();
+class _$JsEvalResult_OkImpl extends JsEvalResult_Ok {
+  const _$JsEvalResult_OkImpl(this.field0) : super._();
 
   @override
   final JsValue field0;
 
   @override
   String toString() {
-    return 'EvalResult.ok(field0: $field0)';
+    return 'JsEvalResult.ok(field0: $field0)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$EvalResult_OkImpl &&
+            other is _$JsEvalResult_OkImpl &&
             (identical(other.field0, field0) || other.field0 == field0));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, field0);
 
-  /// Create a copy of EvalResult
+  /// Create a copy of JsEvalResult
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$EvalResult_OkImplCopyWith<_$EvalResult_OkImpl> get copyWith =>
-      __$$EvalResult_OkImplCopyWithImpl<_$EvalResult_OkImpl>(this, _$identity);
+  _$$JsEvalResult_OkImplCopyWith<_$JsEvalResult_OkImpl> get copyWith =>
+      __$$JsEvalResult_OkImplCopyWithImpl<_$JsEvalResult_OkImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -449,8 +478,8 @@ class _$EvalResult_OkImpl extends EvalResult_Ok {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(EvalResult_Ok value) ok,
-    required TResult Function(EvalResult_Err value) err,
+    required TResult Function(JsEvalResult_Ok value) ok,
+    required TResult Function(JsEvalResult_Err value) err,
   }) {
     return ok(this);
   }
@@ -458,8 +487,8 @@ class _$EvalResult_OkImpl extends EvalResult_Ok {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(EvalResult_Ok value)? ok,
-    TResult? Function(EvalResult_Err value)? err,
+    TResult? Function(JsEvalResult_Ok value)? ok,
+    TResult? Function(JsEvalResult_Err value)? err,
   }) {
     return ok?.call(this);
   }
@@ -467,8 +496,8 @@ class _$EvalResult_OkImpl extends EvalResult_Ok {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(EvalResult_Ok value)? ok,
-    TResult Function(EvalResult_Err value)? err,
+    TResult Function(JsEvalResult_Ok value)? ok,
+    TResult Function(JsEvalResult_Err value)? err,
     required TResult orElse(),
   }) {
     if (ok != null) {
@@ -478,45 +507,45 @@ class _$EvalResult_OkImpl extends EvalResult_Ok {
   }
 }
 
-abstract class EvalResult_Ok extends EvalResult {
-  const factory EvalResult_Ok(final JsValue field0) = _$EvalResult_OkImpl;
-  const EvalResult_Ok._() : super._();
+abstract class JsEvalResult_Ok extends JsEvalResult {
+  const factory JsEvalResult_Ok(final JsValue field0) = _$JsEvalResult_OkImpl;
+  const JsEvalResult_Ok._() : super._();
 
   @override
   JsValue get field0;
 
-  /// Create a copy of EvalResult
+  /// Create a copy of JsEvalResult
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$EvalResult_OkImplCopyWith<_$EvalResult_OkImpl> get copyWith =>
+  _$$JsEvalResult_OkImplCopyWith<_$JsEvalResult_OkImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$EvalResult_ErrImplCopyWith<$Res> {
-  factory _$$EvalResult_ErrImplCopyWith(_$EvalResult_ErrImpl value,
-          $Res Function(_$EvalResult_ErrImpl) then) =
-      __$$EvalResult_ErrImplCopyWithImpl<$Res>;
+abstract class _$$JsEvalResult_ErrImplCopyWith<$Res> {
+  factory _$$JsEvalResult_ErrImplCopyWith(_$JsEvalResult_ErrImpl value,
+          $Res Function(_$JsEvalResult_ErrImpl) then) =
+      __$$JsEvalResult_ErrImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String field0});
 }
 
 /// @nodoc
-class __$$EvalResult_ErrImplCopyWithImpl<$Res>
-    extends _$EvalResultCopyWithImpl<$Res, _$EvalResult_ErrImpl>
-    implements _$$EvalResult_ErrImplCopyWith<$Res> {
-  __$$EvalResult_ErrImplCopyWithImpl(
-      _$EvalResult_ErrImpl _value, $Res Function(_$EvalResult_ErrImpl) _then)
+class __$$JsEvalResult_ErrImplCopyWithImpl<$Res>
+    extends _$JsEvalResultCopyWithImpl<$Res, _$JsEvalResult_ErrImpl>
+    implements _$$JsEvalResult_ErrImplCopyWith<$Res> {
+  __$$JsEvalResult_ErrImplCopyWithImpl(_$JsEvalResult_ErrImpl _value,
+      $Res Function(_$JsEvalResult_ErrImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of EvalResult
+  /// Create a copy of JsEvalResult
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? field0 = null,
   }) {
-    return _then(_$EvalResult_ErrImpl(
+    return _then(_$JsEvalResult_ErrImpl(
       null == field0
           ? _value.field0
           : field0 // ignore: cast_nullable_to_non_nullable
@@ -527,35 +556,35 @@ class __$$EvalResult_ErrImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$EvalResult_ErrImpl extends EvalResult_Err {
-  const _$EvalResult_ErrImpl(this.field0) : super._();
+class _$JsEvalResult_ErrImpl extends JsEvalResult_Err {
+  const _$JsEvalResult_ErrImpl(this.field0) : super._();
 
   @override
   final String field0;
 
   @override
   String toString() {
-    return 'EvalResult.err(field0: $field0)';
+    return 'JsEvalResult.err(field0: $field0)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$EvalResult_ErrImpl &&
+            other is _$JsEvalResult_ErrImpl &&
             (identical(other.field0, field0) || other.field0 == field0));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, field0);
 
-  /// Create a copy of EvalResult
+  /// Create a copy of JsEvalResult
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$EvalResult_ErrImplCopyWith<_$EvalResult_ErrImpl> get copyWith =>
-      __$$EvalResult_ErrImplCopyWithImpl<_$EvalResult_ErrImpl>(
+  _$$JsEvalResult_ErrImplCopyWith<_$JsEvalResult_ErrImpl> get copyWith =>
+      __$$JsEvalResult_ErrImplCopyWithImpl<_$JsEvalResult_ErrImpl>(
           this, _$identity);
 
   @override
@@ -592,8 +621,8 @@ class _$EvalResult_ErrImpl extends EvalResult_Err {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(EvalResult_Ok value) ok,
-    required TResult Function(EvalResult_Err value) err,
+    required TResult Function(JsEvalResult_Ok value) ok,
+    required TResult Function(JsEvalResult_Err value) err,
   }) {
     return err(this);
   }
@@ -601,8 +630,8 @@ class _$EvalResult_ErrImpl extends EvalResult_Err {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(EvalResult_Ok value)? ok,
-    TResult? Function(EvalResult_Err value)? err,
+    TResult? Function(JsEvalResult_Ok value)? ok,
+    TResult? Function(JsEvalResult_Err value)? err,
   }) {
     return err?.call(this);
   }
@@ -610,8 +639,8 @@ class _$EvalResult_ErrImpl extends EvalResult_Err {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(EvalResult_Ok value)? ok,
-    TResult Function(EvalResult_Err value)? err,
+    TResult Function(JsEvalResult_Ok value)? ok,
+    TResult Function(JsEvalResult_Err value)? err,
     required TResult orElse(),
   }) {
     if (err != null) {
@@ -621,17 +650,17 @@ class _$EvalResult_ErrImpl extends EvalResult_Err {
   }
 }
 
-abstract class EvalResult_Err extends EvalResult {
-  const factory EvalResult_Err(final String field0) = _$EvalResult_ErrImpl;
-  const EvalResult_Err._() : super._();
+abstract class JsEvalResult_Err extends JsEvalResult {
+  const factory JsEvalResult_Err(final String field0) = _$JsEvalResult_ErrImpl;
+  const JsEvalResult_Err._() : super._();
 
   @override
   String get field0;
 
-  /// Create a copy of EvalResult
+  /// Create a copy of JsEvalResult
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$EvalResult_ErrImplCopyWith<_$EvalResult_ErrImpl> get copyWith =>
+  _$$JsEvalResult_ErrImplCopyWith<_$JsEvalResult_ErrImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

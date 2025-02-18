@@ -35,12 +35,12 @@ export async function test(){
     """;
 final jsCtx = (() async {
   final test = await rootBundle.loadString("assets/test.js");
-  final rt = AsyncRuntime();
+  final rt = JsAsyncRuntime();
   await rt.setModules(modules: [
     JsModule.code("test", test),
     const JsModule.code("test2", codes),
   ]);
-  return AsyncContext.full(rt: rt);
+  return JsAsyncContext.from(rt: rt);
 })();
 
 class MyApp extends StatelessWidget {

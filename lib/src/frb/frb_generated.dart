@@ -69,7 +69,7 @@ class LibFjs extends BaseEntrypoint<LibFjsApi, LibFjsApiImpl, LibFjsWire> {
   String get codegenVersion => '2.8.0';
 
   @override
-  int get rustContentHash => 1099304974;
+  int get rustContentHash => 190784209;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -80,59 +80,110 @@ class LibFjs extends BaseEntrypoint<LibFjsApi, LibFjsApiImpl, LibFjsWire> {
 }
 
 abstract class LibFjsApi extends BaseApi {
-  Future<EvalResult> crateApiJsAsyncContextEval(
-      {required AsyncContext that, required String code});
+  Future<JsEvalResult> crateApiJsJsAsyncContextEval(
+      {required JsAsyncContext that, required String code});
 
-  Future<EvalResult> crateApiJsAsyncContextEvalFile(
-      {required AsyncContext that, required String path});
+  Future<JsEvalResult> crateApiJsJsAsyncContextEvalFile(
+      {required JsAsyncContext that, required String path});
 
-  Future<EvalResult> crateApiJsAsyncContextEvalFileWithOptions(
-      {required AsyncContext that,
+  Future<JsEvalResult> crateApiJsJsAsyncContextEvalFileWithOptions(
+      {required JsAsyncContext that,
       required String path,
-      required EvalOptions options});
+      required JsEvalOptions options});
 
-  Future<EvalResult> crateApiJsAsyncContextEvalFunction(
-      {required AsyncContext that,
+  Future<JsEvalResult> crateApiJsJsAsyncContextEvalFunction(
+      {required JsAsyncContext that,
       required String module,
       required String method,
       List<JsValue>? params});
 
-  Future<EvalResult> crateApiJsAsyncContextEvalWithOptions(
-      {required AsyncContext that,
+  Future<JsEvalResult> crateApiJsJsAsyncContextEvalWithOptions(
+      {required JsAsyncContext that,
       required String code,
-      required EvalOptions options});
+      required JsEvalOptions options});
 
-  Future<AsyncContext> crateApiJsAsyncContextFull({required AsyncRuntime rt});
+  Future<JsAsyncContext> crateApiJsJsAsyncContextFrom(
+      {required JsAsyncRuntime rt});
 
-  Future<bool> crateApiJsAsyncRuntimeExecutePendingJob(
-      {required AsyncRuntime that});
+  Future<bool> crateApiJsJsAsyncRuntimeExecutePendingJob(
+      {required JsAsyncRuntime that});
 
-  Future<void> crateApiJsAsyncRuntimeIdle({required AsyncRuntime that});
+  Future<void> crateApiJsJsAsyncRuntimeIdle({required JsAsyncRuntime that});
 
-  Future<bool> crateApiJsAsyncRuntimeIsJobPending({required AsyncRuntime that});
+  Future<bool> crateApiJsJsAsyncRuntimeIsJobPending(
+      {required JsAsyncRuntime that});
 
-  Future<MemoryUsage> crateApiJsAsyncRuntimeMemoryUsage(
-      {required AsyncRuntime that});
+  Future<MemoryUsage> crateApiJsJsAsyncRuntimeMemoryUsage(
+      {required JsAsyncRuntime that});
 
-  AsyncRuntime crateApiJsAsyncRuntimeNew();
+  JsAsyncRuntime crateApiJsJsAsyncRuntimeNew();
 
-  Future<void> crateApiJsAsyncRuntimeRunGc({required AsyncRuntime that});
+  Future<void> crateApiJsJsAsyncRuntimeRunGc({required JsAsyncRuntime that});
 
-  Future<void> crateApiJsAsyncRuntimeSetGcThreshold(
-      {required AsyncRuntime that, required BigInt threshold});
+  Future<void> crateApiJsJsAsyncRuntimeSetGcThreshold(
+      {required JsAsyncRuntime that, required BigInt threshold});
 
-  Future<void> crateApiJsAsyncRuntimeSetMaxStackSize(
-      {required AsyncRuntime that, required BigInt limit});
+  Future<void> crateApiJsJsAsyncRuntimeSetInfo(
+      {required JsAsyncRuntime that, required String info});
 
-  Future<void> crateApiJsAsyncRuntimeSetMemoryLimit(
-      {required AsyncRuntime that, required BigInt limit});
+  Future<void> crateApiJsJsAsyncRuntimeSetMaxStackSize(
+      {required JsAsyncRuntime that, required BigInt limit});
 
-  Future<void> crateApiJsAsyncRuntimeSetModules(
-      {required AsyncRuntime that, required List<JsModule> modules});
+  Future<void> crateApiJsJsAsyncRuntimeSetMemoryLimit(
+      {required JsAsyncRuntime that, required BigInt limit});
 
-  EvalOptions crateApiJsEvalOptionsNew();
+  Future<void> crateApiJsJsAsyncRuntimeSetModules(
+      {required JsAsyncRuntime that, required List<JsModule> modules});
+
+  JsEvalResult crateApiJsJsContextEval(
+      {required JsContext that, required String code});
+
+  JsEvalResult crateApiJsJsContextEvalFile(
+      {required JsContext that, required String path});
+
+  JsEvalResult crateApiJsJsContextEvalFileWithOptions(
+      {required JsContext that,
+      required String path,
+      required JsEvalOptions options});
+
+  JsEvalResult crateApiJsJsContextEvalWithOptions(
+      {required JsContext that,
+      required String code,
+      required JsEvalOptions options});
+
+  JsContext crateApiJsJsContextNew({required JsRuntime rt});
+
+  bool crateApiJsJsRuntimeExecutePendingJob({required JsRuntime that});
+
+  bool crateApiJsJsRuntimeIsJobPending({required JsRuntime that});
+
+  MemoryUsage crateApiJsJsRuntimeMemoryUsage({required JsRuntime that});
+
+  JsRuntime crateApiJsJsRuntimeNew();
+
+  void crateApiJsJsRuntimeRunGc({required JsRuntime that});
+
+  void crateApiJsJsRuntimeSetDumpFlags(
+      {required JsRuntime that, required BigInt flags});
+
+  void crateApiJsJsRuntimeSetGcThreshold(
+      {required JsRuntime that, required BigInt threshold});
+
+  void crateApiJsJsRuntimeSetInfo(
+      {required JsRuntime that, required String info});
+
+  void crateApiJsJsRuntimeSetMaxStackSize(
+      {required JsRuntime that, required BigInt limit});
+
+  void crateApiJsJsRuntimeSetMemoryLimit(
+      {required JsRuntime that, required BigInt limit});
+
+  Future<void> crateApiJsJsRuntimeSetModules(
+      {required JsRuntime that, required List<JsModule> modules});
 
   Future<void> crateApiInitApp();
+
+  JsEvalOptions crateApiJsJsEvalOptionsNew();
 
   JsModule crateApiJsJsModuleFromCode(
       {required String module, required String code});
@@ -144,20 +195,38 @@ abstract class LibFjsApi extends BaseApi {
       {required String module, String? code, String? path});
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_AsyncContext;
+      get rust_arc_increment_strong_count_JsAsyncContext;
 
   RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_AsyncContext;
+      get rust_arc_decrement_strong_count_JsAsyncContext;
 
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_AsyncContextPtr;
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_JsAsyncContextPtr;
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_AsyncRuntime;
+      get rust_arc_increment_strong_count_JsAsyncRuntime;
 
   RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_AsyncRuntime;
+      get rust_arc_decrement_strong_count_JsAsyncRuntime;
 
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_AsyncRuntimePtr;
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_JsAsyncRuntimePtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_JsContext;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_JsContext;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_JsContextPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_JsRuntime;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_JsRuntime;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_JsRuntimePtr;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_MemoryUsage;
@@ -177,101 +246,102 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
   });
 
   @override
-  Future<EvalResult> crateApiJsAsyncContextEval(
-      {required AsyncContext that, required String code}) {
+  Future<JsEvalResult> crateApiJsJsAsyncContextEval(
+      {required JsAsyncContext that, required String code}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext(
             that, serializer);
         sse_encode_String(code, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 1, port: port_);
       },
       codec: SseCodec(
-        decodeSuccessData: sse_decode_eval_result,
+        decodeSuccessData: sse_decode_js_eval_result,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiJsAsyncContextEvalConstMeta,
+      constMeta: kCrateApiJsJsAsyncContextEvalConstMeta,
       argValues: [that, code],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncContextEvalConstMeta => const TaskConstMeta(
-        debugName: "AsyncContext_eval",
+  TaskConstMeta get kCrateApiJsJsAsyncContextEvalConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsAsyncContext_eval",
         argNames: ["that", "code"],
       );
 
   @override
-  Future<EvalResult> crateApiJsAsyncContextEvalFile(
-      {required AsyncContext that, required String path}) {
+  Future<JsEvalResult> crateApiJsJsAsyncContextEvalFile(
+      {required JsAsyncContext that, required String path}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext(
             that, serializer);
         sse_encode_String(path, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 2, port: port_);
       },
       codec: SseCodec(
-        decodeSuccessData: sse_decode_eval_result,
+        decodeSuccessData: sse_decode_js_eval_result,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiJsAsyncContextEvalFileConstMeta,
+      constMeta: kCrateApiJsJsAsyncContextEvalFileConstMeta,
       argValues: [that, path],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncContextEvalFileConstMeta =>
+  TaskConstMeta get kCrateApiJsJsAsyncContextEvalFileConstMeta =>
       const TaskConstMeta(
-        debugName: "AsyncContext_eval_file",
+        debugName: "JsAsyncContext_eval_file",
         argNames: ["that", "path"],
       );
 
   @override
-  Future<EvalResult> crateApiJsAsyncContextEvalFileWithOptions(
-      {required AsyncContext that,
+  Future<JsEvalResult> crateApiJsJsAsyncContextEvalFileWithOptions(
+      {required JsAsyncContext that,
       required String path,
-      required EvalOptions options}) {
+      required JsEvalOptions options}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext(
             that, serializer);
         sse_encode_String(path, serializer);
-        sse_encode_box_autoadd_eval_options(options, serializer);
+        sse_encode_box_autoadd_js_eval_options(options, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 3, port: port_);
       },
       codec: SseCodec(
-        decodeSuccessData: sse_decode_eval_result,
+        decodeSuccessData: sse_decode_js_eval_result,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiJsAsyncContextEvalFileWithOptionsConstMeta,
+      constMeta: kCrateApiJsJsAsyncContextEvalFileWithOptionsConstMeta,
       argValues: [that, path, options],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncContextEvalFileWithOptionsConstMeta =>
+  TaskConstMeta get kCrateApiJsJsAsyncContextEvalFileWithOptionsConstMeta =>
       const TaskConstMeta(
-        debugName: "AsyncContext_eval_file_with_options",
+        debugName: "JsAsyncContext_eval_file_with_options",
         argNames: ["that", "path", "options"],
       );
 
   @override
-  Future<EvalResult> crateApiJsAsyncContextEvalFunction(
-      {required AsyncContext that,
+  Future<JsEvalResult> crateApiJsJsAsyncContextEvalFunction(
+      {required JsAsyncContext that,
       required String module,
       required String method,
       List<JsValue>? params}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext(
             that, serializer);
         sse_encode_String(module, serializer);
         sse_encode_String(method, serializer);
@@ -280,85 +350,87 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
             funcId: 4, port: port_);
       },
       codec: SseCodec(
-        decodeSuccessData: sse_decode_eval_result,
+        decodeSuccessData: sse_decode_js_eval_result,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiJsAsyncContextEvalFunctionConstMeta,
+      constMeta: kCrateApiJsJsAsyncContextEvalFunctionConstMeta,
       argValues: [that, module, method, params],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncContextEvalFunctionConstMeta =>
+  TaskConstMeta get kCrateApiJsJsAsyncContextEvalFunctionConstMeta =>
       const TaskConstMeta(
-        debugName: "AsyncContext_eval_function",
+        debugName: "JsAsyncContext_eval_function",
         argNames: ["that", "module", "method", "params"],
       );
 
   @override
-  Future<EvalResult> crateApiJsAsyncContextEvalWithOptions(
-      {required AsyncContext that,
+  Future<JsEvalResult> crateApiJsJsAsyncContextEvalWithOptions(
+      {required JsAsyncContext that,
       required String code,
-      required EvalOptions options}) {
+      required JsEvalOptions options}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext(
             that, serializer);
         sse_encode_String(code, serializer);
-        sse_encode_box_autoadd_eval_options(options, serializer);
+        sse_encode_box_autoadd_js_eval_options(options, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 5, port: port_);
       },
       codec: SseCodec(
-        decodeSuccessData: sse_decode_eval_result,
+        decodeSuccessData: sse_decode_js_eval_result,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiJsAsyncContextEvalWithOptionsConstMeta,
+      constMeta: kCrateApiJsJsAsyncContextEvalWithOptionsConstMeta,
       argValues: [that, code, options],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncContextEvalWithOptionsConstMeta =>
+  TaskConstMeta get kCrateApiJsJsAsyncContextEvalWithOptionsConstMeta =>
       const TaskConstMeta(
-        debugName: "AsyncContext_eval_with_options",
+        debugName: "JsAsyncContext_eval_with_options",
         argNames: ["that", "code", "options"],
       );
 
   @override
-  Future<AsyncContext> crateApiJsAsyncContextFull({required AsyncRuntime rt}) {
+  Future<JsAsyncContext> crateApiJsJsAsyncContextFrom(
+      {required JsAsyncRuntime rt}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
             rt, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 6, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData:
-            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext,
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiJsAsyncContextFullConstMeta,
+      constMeta: kCrateApiJsJsAsyncContextFromConstMeta,
       argValues: [rt],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncContextFullConstMeta => const TaskConstMeta(
-        debugName: "AsyncContext_full",
+  TaskConstMeta get kCrateApiJsJsAsyncContextFromConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsAsyncContext_from",
         argNames: ["rt"],
       );
 
   @override
-  Future<bool> crateApiJsAsyncRuntimeExecutePendingJob(
-      {required AsyncRuntime that}) {
+  Future<bool> crateApiJsJsAsyncRuntimeExecutePendingJob(
+      {required JsAsyncRuntime that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
             that, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 7, port: port_);
@@ -367,24 +439,24 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
         decodeSuccessData: sse_decode_bool,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiJsAsyncRuntimeExecutePendingJobConstMeta,
+      constMeta: kCrateApiJsJsAsyncRuntimeExecutePendingJobConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncRuntimeExecutePendingJobConstMeta =>
+  TaskConstMeta get kCrateApiJsJsAsyncRuntimeExecutePendingJobConstMeta =>
       const TaskConstMeta(
-        debugName: "AsyncRuntime_execute_pending_job",
+        debugName: "JsAsyncRuntime_execute_pending_job",
         argNames: ["that"],
       );
 
   @override
-  Future<void> crateApiJsAsyncRuntimeIdle({required AsyncRuntime that}) {
+  Future<void> crateApiJsJsAsyncRuntimeIdle({required JsAsyncRuntime that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
             that, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 8, port: port_);
@@ -393,24 +465,25 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
         decodeSuccessData: sse_decode_unit,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiJsAsyncRuntimeIdleConstMeta,
+      constMeta: kCrateApiJsJsAsyncRuntimeIdleConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncRuntimeIdleConstMeta => const TaskConstMeta(
-        debugName: "AsyncRuntime_idle",
+  TaskConstMeta get kCrateApiJsJsAsyncRuntimeIdleConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsAsyncRuntime_idle",
         argNames: ["that"],
       );
 
   @override
-  Future<bool> crateApiJsAsyncRuntimeIsJobPending(
-      {required AsyncRuntime that}) {
+  Future<bool> crateApiJsJsAsyncRuntimeIsJobPending(
+      {required JsAsyncRuntime that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
             that, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 9, port: port_);
@@ -419,25 +492,25 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
         decodeSuccessData: sse_decode_bool,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiJsAsyncRuntimeIsJobPendingConstMeta,
+      constMeta: kCrateApiJsJsAsyncRuntimeIsJobPendingConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncRuntimeIsJobPendingConstMeta =>
+  TaskConstMeta get kCrateApiJsJsAsyncRuntimeIsJobPendingConstMeta =>
       const TaskConstMeta(
-        debugName: "AsyncRuntime_is_job_pending",
+        debugName: "JsAsyncRuntime_is_job_pending",
         argNames: ["that"],
       );
 
   @override
-  Future<MemoryUsage> crateApiJsAsyncRuntimeMemoryUsage(
-      {required AsyncRuntime that}) {
+  Future<MemoryUsage> crateApiJsJsAsyncRuntimeMemoryUsage(
+      {required JsAsyncRuntime that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
             that, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 10, port: port_);
@@ -447,20 +520,20 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
             sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryUsage,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiJsAsyncRuntimeMemoryUsageConstMeta,
+      constMeta: kCrateApiJsJsAsyncRuntimeMemoryUsageConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncRuntimeMemoryUsageConstMeta =>
+  TaskConstMeta get kCrateApiJsJsAsyncRuntimeMemoryUsageConstMeta =>
       const TaskConstMeta(
-        debugName: "AsyncRuntime_memory_usage",
+        debugName: "JsAsyncRuntime_memory_usage",
         argNames: ["that"],
       );
 
   @override
-  AsyncRuntime crateApiJsAsyncRuntimeNew() {
+  JsAsyncRuntime crateApiJsJsAsyncRuntimeNew() {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
@@ -468,26 +541,27 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
       },
       codec: SseCodec(
         decodeSuccessData:
-            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime,
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiJsAsyncRuntimeNewConstMeta,
+      constMeta: kCrateApiJsJsAsyncRuntimeNewConstMeta,
       argValues: [],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncRuntimeNewConstMeta => const TaskConstMeta(
-        debugName: "AsyncRuntime_new",
+  TaskConstMeta get kCrateApiJsJsAsyncRuntimeNewConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsAsyncRuntime_new",
         argNames: [],
       );
 
   @override
-  Future<void> crateApiJsAsyncRuntimeRunGc({required AsyncRuntime that}) {
+  Future<void> crateApiJsJsAsyncRuntimeRunGc({required JsAsyncRuntime that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
             that, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 12, port: port_);
@@ -496,25 +570,25 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
         decodeSuccessData: sse_decode_unit,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiJsAsyncRuntimeRunGcConstMeta,
+      constMeta: kCrateApiJsJsAsyncRuntimeRunGcConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncRuntimeRunGcConstMeta =>
+  TaskConstMeta get kCrateApiJsJsAsyncRuntimeRunGcConstMeta =>
       const TaskConstMeta(
-        debugName: "AsyncRuntime_run_gc",
+        debugName: "JsAsyncRuntime_run_gc",
         argNames: ["that"],
       );
 
   @override
-  Future<void> crateApiJsAsyncRuntimeSetGcThreshold(
-      {required AsyncRuntime that, required BigInt threshold}) {
+  Future<void> crateApiJsJsAsyncRuntimeSetGcThreshold(
+      {required JsAsyncRuntime that, required BigInt threshold}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
             that, serializer);
         sse_encode_usize(threshold, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
@@ -524,53 +598,53 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
         decodeSuccessData: sse_decode_unit,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiJsAsyncRuntimeSetGcThresholdConstMeta,
+      constMeta: kCrateApiJsJsAsyncRuntimeSetGcThresholdConstMeta,
       argValues: [that, threshold],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncRuntimeSetGcThresholdConstMeta =>
+  TaskConstMeta get kCrateApiJsJsAsyncRuntimeSetGcThresholdConstMeta =>
       const TaskConstMeta(
-        debugName: "AsyncRuntime_set_gc_threshold",
+        debugName: "JsAsyncRuntime_set_gc_threshold",
         argNames: ["that", "threshold"],
       );
 
   @override
-  Future<void> crateApiJsAsyncRuntimeSetMaxStackSize(
-      {required AsyncRuntime that, required BigInt limit}) {
+  Future<void> crateApiJsJsAsyncRuntimeSetInfo(
+      {required JsAsyncRuntime that, required String info}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
             that, serializer);
-        sse_encode_usize(limit, serializer);
+        sse_encode_String(info, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 14, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
-        decodeErrorData: null,
+        decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiJsAsyncRuntimeSetMaxStackSizeConstMeta,
-      argValues: [that, limit],
+      constMeta: kCrateApiJsJsAsyncRuntimeSetInfoConstMeta,
+      argValues: [that, info],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncRuntimeSetMaxStackSizeConstMeta =>
+  TaskConstMeta get kCrateApiJsJsAsyncRuntimeSetInfoConstMeta =>
       const TaskConstMeta(
-        debugName: "AsyncRuntime_set_max_stack_size",
-        argNames: ["that", "limit"],
+        debugName: "JsAsyncRuntime_set_info",
+        argNames: ["that", "info"],
       );
 
   @override
-  Future<void> crateApiJsAsyncRuntimeSetMemoryLimit(
-      {required AsyncRuntime that, required BigInt limit}) {
+  Future<void> crateApiJsJsAsyncRuntimeSetMaxStackSize(
+      {required JsAsyncRuntime that, required BigInt limit}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
             that, serializer);
         sse_encode_usize(limit, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
@@ -580,66 +654,495 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
         decodeSuccessData: sse_decode_unit,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiJsAsyncRuntimeSetMemoryLimitConstMeta,
+      constMeta: kCrateApiJsJsAsyncRuntimeSetMaxStackSizeConstMeta,
       argValues: [that, limit],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncRuntimeSetMemoryLimitConstMeta =>
+  TaskConstMeta get kCrateApiJsJsAsyncRuntimeSetMaxStackSizeConstMeta =>
       const TaskConstMeta(
-        debugName: "AsyncRuntime_set_memory_limit",
+        debugName: "JsAsyncRuntime_set_max_stack_size",
         argNames: ["that", "limit"],
       );
 
   @override
-  Future<void> crateApiJsAsyncRuntimeSetModules(
-      {required AsyncRuntime that, required List<JsModule> modules}) {
+  Future<void> crateApiJsJsAsyncRuntimeSetMemoryLimit(
+      {required JsAsyncRuntime that, required BigInt limit}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
             that, serializer);
-        sse_encode_list_js_module(modules, serializer);
+        sse_encode_usize(limit, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 16, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiJsJsAsyncRuntimeSetMemoryLimitConstMeta,
+      argValues: [that, limit],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsAsyncRuntimeSetMemoryLimitConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsAsyncRuntime_set_memory_limit",
+        argNames: ["that", "limit"],
+      );
+
+  @override
+  Future<void> crateApiJsJsAsyncRuntimeSetModules(
+      {required JsAsyncRuntime that, required List<JsModule> modules}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
+            that, serializer);
+        sse_encode_list_js_module(modules, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 17, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiJsAsyncRuntimeSetModulesConstMeta,
+      constMeta: kCrateApiJsJsAsyncRuntimeSetModulesConstMeta,
       argValues: [that, modules],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsAsyncRuntimeSetModulesConstMeta =>
+  TaskConstMeta get kCrateApiJsJsAsyncRuntimeSetModulesConstMeta =>
       const TaskConstMeta(
-        debugName: "AsyncRuntime_set_modules",
+        debugName: "JsAsyncRuntime_set_modules",
         argNames: ["that", "modules"],
       );
 
   @override
-  EvalOptions crateApiJsEvalOptionsNew() {
+  JsEvalResult crateApiJsJsContextEval(
+      {required JsContext that, required String code}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext(
+            that, serializer);
+        sse_encode_String(code, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
       },
       codec: SseCodec(
-        decodeSuccessData: sse_decode_eval_options,
+        decodeSuccessData: sse_decode_js_eval_result,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiJsEvalOptionsNewConstMeta,
+      constMeta: kCrateApiJsJsContextEvalConstMeta,
+      argValues: [that, code],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsContextEvalConstMeta => const TaskConstMeta(
+        debugName: "JsContext_eval",
+        argNames: ["that", "code"],
+      );
+
+  @override
+  JsEvalResult crateApiJsJsContextEvalFile(
+      {required JsContext that, required String path}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext(
+            that, serializer);
+        sse_encode_String(path, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_js_eval_result,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiJsJsContextEvalFileConstMeta,
+      argValues: [that, path],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsContextEvalFileConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsContext_eval_file",
+        argNames: ["that", "path"],
+      );
+
+  @override
+  JsEvalResult crateApiJsJsContextEvalFileWithOptions(
+      {required JsContext that,
+      required String path,
+      required JsEvalOptions options}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext(
+            that, serializer);
+        sse_encode_String(path, serializer);
+        sse_encode_box_autoadd_js_eval_options(options, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_js_eval_result,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiJsJsContextEvalFileWithOptionsConstMeta,
+      argValues: [that, path, options],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsContextEvalFileWithOptionsConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsContext_eval_file_with_options",
+        argNames: ["that", "path", "options"],
+      );
+
+  @override
+  JsEvalResult crateApiJsJsContextEvalWithOptions(
+      {required JsContext that,
+      required String code,
+      required JsEvalOptions options}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext(
+            that, serializer);
+        sse_encode_String(code, serializer);
+        sse_encode_box_autoadd_js_eval_options(options, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_js_eval_result,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiJsJsContextEvalWithOptionsConstMeta,
+      argValues: [that, code, options],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsContextEvalWithOptionsConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsContext_eval_with_options",
+        argNames: ["that", "code", "options"],
+      );
+
+  @override
+  JsContext crateApiJsJsContextNew({required JsRuntime rt}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+            rt, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 22)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiJsJsContextNewConstMeta,
+      argValues: [rt],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsContextNewConstMeta => const TaskConstMeta(
+        debugName: "JsContext_new",
+        argNames: ["rt"],
+      );
+
+  @override
+  bool crateApiJsJsRuntimeExecutePendingJob({required JsRuntime that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 23)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_bool,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiJsJsRuntimeExecutePendingJobConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsRuntimeExecutePendingJobConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsRuntime_execute_pending_job",
+        argNames: ["that"],
+      );
+
+  @override
+  bool crateApiJsJsRuntimeIsJobPending({required JsRuntime that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 24)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiJsJsRuntimeIsJobPendingConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsRuntimeIsJobPendingConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsRuntime_is_job_pending",
+        argNames: ["that"],
+      );
+
+  @override
+  MemoryUsage crateApiJsJsRuntimeMemoryUsage({required JsRuntime that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 25)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerMemoryUsage,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiJsJsRuntimeMemoryUsageConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsRuntimeMemoryUsageConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsRuntime_memory_usage",
+        argNames: ["that"],
+      );
+
+  @override
+  JsRuntime crateApiJsJsRuntimeNew() {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 26)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiJsJsRuntimeNewConstMeta,
       argValues: [],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiJsEvalOptionsNewConstMeta => const TaskConstMeta(
-        debugName: "eval_options_new",
+  TaskConstMeta get kCrateApiJsJsRuntimeNewConstMeta => const TaskConstMeta(
+        debugName: "JsRuntime_new",
         argNames: [],
+      );
+
+  @override
+  void crateApiJsJsRuntimeRunGc({required JsRuntime that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 27)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiJsJsRuntimeRunGcConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsRuntimeRunGcConstMeta => const TaskConstMeta(
+        debugName: "JsRuntime_run_gc",
+        argNames: ["that"],
+      );
+
+  @override
+  void crateApiJsJsRuntimeSetDumpFlags(
+      {required JsRuntime that, required BigInt flags}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+            that, serializer);
+        sse_encode_u_64(flags, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 28)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiJsJsRuntimeSetDumpFlagsConstMeta,
+      argValues: [that, flags],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsRuntimeSetDumpFlagsConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsRuntime_set_dump_flags",
+        argNames: ["that", "flags"],
+      );
+
+  @override
+  void crateApiJsJsRuntimeSetGcThreshold(
+      {required JsRuntime that, required BigInt threshold}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+            that, serializer);
+        sse_encode_usize(threshold, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 29)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiJsJsRuntimeSetGcThresholdConstMeta,
+      argValues: [that, threshold],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsRuntimeSetGcThresholdConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsRuntime_set_gc_threshold",
+        argNames: ["that", "threshold"],
+      );
+
+  @override
+  void crateApiJsJsRuntimeSetInfo(
+      {required JsRuntime that, required String info}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+            that, serializer);
+        sse_encode_String(info, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 30)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiJsJsRuntimeSetInfoConstMeta,
+      argValues: [that, info],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsRuntimeSetInfoConstMeta => const TaskConstMeta(
+        debugName: "JsRuntime_set_info",
+        argNames: ["that", "info"],
+      );
+
+  @override
+  void crateApiJsJsRuntimeSetMaxStackSize(
+      {required JsRuntime that, required BigInt limit}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+            that, serializer);
+        sse_encode_usize(limit, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 31)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiJsJsRuntimeSetMaxStackSizeConstMeta,
+      argValues: [that, limit],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsRuntimeSetMaxStackSizeConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsRuntime_set_max_stack_size",
+        argNames: ["that", "limit"],
+      );
+
+  @override
+  void crateApiJsJsRuntimeSetMemoryLimit(
+      {required JsRuntime that, required BigInt limit}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+            that, serializer);
+        sse_encode_usize(limit, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 32)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiJsJsRuntimeSetMemoryLimitConstMeta,
+      argValues: [that, limit],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsRuntimeSetMemoryLimitConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsRuntime_set_memory_limit",
+        argNames: ["that", "limit"],
+      );
+
+  @override
+  Future<void> crateApiJsJsRuntimeSetModules(
+      {required JsRuntime that, required List<JsModule> modules}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+            that, serializer);
+        sse_encode_list_js_module(modules, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 33, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiJsJsRuntimeSetModulesConstMeta,
+      argValues: [that, modules],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsRuntimeSetModulesConstMeta =>
+      const TaskConstMeta(
+        debugName: "JsRuntime_set_modules",
+        argNames: ["that", "modules"],
       );
 
   @override
@@ -648,7 +1151,7 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 18, port: port_);
+            funcId: 34, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -666,6 +1169,28 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
       );
 
   @override
+  JsEvalOptions crateApiJsJsEvalOptionsNew() {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 35)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_js_eval_options,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiJsJsEvalOptionsNewConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiJsJsEvalOptionsNewConstMeta => const TaskConstMeta(
+        debugName: "js_eval_options_new",
+        argNames: [],
+      );
+
+  @override
   JsModule crateApiJsJsModuleFromCode(
       {required String module, required String code}) {
     return handler.executeSync(SyncTask(
@@ -673,7 +1198,7 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(module, serializer);
         sse_encode_String(code, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 36)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_js_module,
@@ -698,7 +1223,7 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(module, serializer);
         sse_encode_String(path, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 37)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_js_module,
@@ -724,7 +1249,7 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
         sse_encode_String(module, serializer);
         sse_encode_opt_String(code, serializer);
         sse_encode_opt_String(path, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 38)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_js_module,
@@ -742,20 +1267,36 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
       );
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_AsyncContext => wire
-          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext;
+      get rust_arc_increment_strong_count_JsAsyncContext => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext;
 
   RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_AsyncContext => wire
-          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext;
+      get rust_arc_decrement_strong_count_JsAsyncContext => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext;
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_AsyncRuntime => wire
-          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime;
+      get rust_arc_increment_strong_count_JsAsyncRuntime => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime;
 
   RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_AsyncRuntime => wire
-          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime;
+      get rust_arc_decrement_strong_count_JsAsyncRuntime => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_JsContext => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_JsContext => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_JsRuntime => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_JsRuntime => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_MemoryUsage => wire
@@ -772,19 +1313,35 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
   }
 
   @protected
-  AsyncContext
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext(
+  JsAsyncContext
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return AsyncContextImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return JsAsyncContextImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  AsyncRuntime
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+  JsAsyncRuntime
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return AsyncRuntimeImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return JsAsyncRuntimeImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  JsContext
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return JsContextImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  JsRuntime
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return JsRuntimeImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -796,35 +1353,67 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
   }
 
   @protected
-  AsyncContext
-      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext(
+  JsAsyncContext
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return AsyncContextImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return JsAsyncContextImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  AsyncRuntime
-      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+  JsAsyncRuntime
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return AsyncRuntimeImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return JsAsyncRuntimeImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  AsyncContext
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext(
+  JsContext
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return AsyncContextImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return JsContextImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  AsyncRuntime
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+  JsRuntime
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return AsyncRuntimeImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return JsRuntimeImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  JsAsyncContext
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return JsAsyncContextImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  JsAsyncRuntime
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return JsAsyncRuntimeImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  JsContext
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return JsContextImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  JsRuntime
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return JsRuntimeImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -848,45 +1437,15 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
   }
 
   @protected
-  EvalOptions dco_decode_box_autoadd_eval_options(dynamic raw) {
+  JsEvalOptions dco_decode_box_autoadd_js_eval_options(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dco_decode_eval_options(raw);
+    return dco_decode_js_eval_options(raw);
   }
 
   @protected
   JsValue dco_decode_box_autoadd_js_value(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_js_value(raw);
-  }
-
-  @protected
-  EvalOptions dco_decode_eval_options(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 3)
-      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
-    return EvalOptions.raw(
-      global: dco_decode_bool(arr[0]),
-      strict: dco_decode_bool(arr[1]),
-      backtraceBarrier: dco_decode_bool(arr[2]),
-    );
-  }
-
-  @protected
-  EvalResult dco_decode_eval_result(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    switch (raw[0]) {
-      case 0:
-        return EvalResult_Ok(
-          dco_decode_box_autoadd_js_value(raw[1]),
-        );
-      case 1:
-        return EvalResult_Err(
-          dco_decode_String(raw[1]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
   }
 
   @protected
@@ -899,6 +1458,37 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
   PlatformInt64 dco_decode_i_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dcoDecodeI64(raw);
+  }
+
+  @protected
+  JsEvalOptions dco_decode_js_eval_options(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return JsEvalOptions.raw(
+      global: dco_decode_bool(arr[0]),
+      strict: dco_decode_bool(arr[1]),
+      backtraceBarrier: dco_decode_bool(arr[2]),
+      promise: dco_decode_bool(arr[3]),
+    );
+  }
+
+  @protected
+  JsEvalResult dco_decode_js_eval_result(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return JsEvalResult_Ok(
+          dco_decode_box_autoadd_js_value(raw[1]),
+        );
+      case 1:
+        return JsEvalResult_Err(
+          dco_decode_String(raw[1]),
+        );
+      default:
+        throw Exception("unreachable");
+    }
   }
 
   @protected
@@ -1008,6 +1598,12 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
   }
 
   @protected
+  BigInt dco_decode_u_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeU64(raw);
+  }
+
+  @protected
   int dco_decode_u_8(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
@@ -1033,20 +1629,38 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
   }
 
   @protected
-  AsyncContext
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext(
+  JsAsyncContext
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return AsyncContextImpl.frbInternalSseDecode(
+    return JsAsyncContextImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  AsyncRuntime
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+  JsAsyncRuntime
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return AsyncRuntimeImpl.frbInternalSseDecode(
+    return JsAsyncRuntimeImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  JsContext
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return JsContextImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  JsRuntime
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return JsRuntimeImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -1060,38 +1674,74 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
   }
 
   @protected
-  AsyncContext
-      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext(
+  JsAsyncContext
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return AsyncContextImpl.frbInternalSseDecode(
+    return JsAsyncContextImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  AsyncRuntime
-      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+  JsAsyncRuntime
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return AsyncRuntimeImpl.frbInternalSseDecode(
+    return JsAsyncRuntimeImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  AsyncContext
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext(
+  JsContext
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return AsyncContextImpl.frbInternalSseDecode(
+    return JsContextImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  AsyncRuntime
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
+  JsRuntime
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return AsyncRuntimeImpl.frbInternalSseDecode(
+    return JsRuntimeImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  JsAsyncContext
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return JsAsyncContextImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  JsAsyncRuntime
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return JsAsyncRuntimeImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  JsContext
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return JsContextImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  JsRuntime
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return JsRuntimeImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -1118,45 +1768,16 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
   }
 
   @protected
-  EvalOptions sse_decode_box_autoadd_eval_options(
+  JsEvalOptions sse_decode_box_autoadd_js_eval_options(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_eval_options(deserializer));
+    return (sse_decode_js_eval_options(deserializer));
   }
 
   @protected
   JsValue sse_decode_box_autoadd_js_value(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_js_value(deserializer));
-  }
-
-  @protected
-  EvalOptions sse_decode_eval_options(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_global = sse_decode_bool(deserializer);
-    var var_strict = sse_decode_bool(deserializer);
-    var var_backtraceBarrier = sse_decode_bool(deserializer);
-    return EvalOptions.raw(
-        global: var_global,
-        strict: var_strict,
-        backtraceBarrier: var_backtraceBarrier);
-  }
-
-  @protected
-  EvalResult sse_decode_eval_result(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        var var_field0 = sse_decode_box_autoadd_js_value(deserializer);
-        return EvalResult_Ok(var_field0);
-      case 1:
-        var var_field0 = sse_decode_String(deserializer);
-        return EvalResult_Err(var_field0);
-      default:
-        throw UnimplementedError('');
-    }
   }
 
   @protected
@@ -1169,6 +1790,37 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
   PlatformInt64 sse_decode_i_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getPlatformInt64();
+  }
+
+  @protected
+  JsEvalOptions sse_decode_js_eval_options(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_global = sse_decode_bool(deserializer);
+    var var_strict = sse_decode_bool(deserializer);
+    var var_backtraceBarrier = sse_decode_bool(deserializer);
+    var var_promise = sse_decode_bool(deserializer);
+    return JsEvalOptions.raw(
+        global: var_global,
+        strict: var_strict,
+        backtraceBarrier: var_backtraceBarrier,
+        promise: var_promise);
+  }
+
+  @protected
+  JsEvalResult sse_decode_js_eval_result(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_field0 = sse_decode_box_autoadd_js_value(deserializer);
+        return JsEvalResult_Ok(var_field0);
+      case 1:
+        var var_field0 = sse_decode_String(deserializer);
+        return JsEvalResult_Err(var_field0);
+      default:
+        throw UnimplementedError('');
+    }
   }
 
   @protected
@@ -1298,6 +1950,12 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
   }
 
   @protected
+  BigInt sse_decode_u_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getBigUint64();
+  }
+
+  @protected
   int sse_decode_u_8(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint8();
@@ -1329,22 +1987,40 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
 
   @protected
   void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext(
-          AsyncContext self, SseSerializer serializer) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext(
+          JsAsyncContext self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as AsyncContextImpl).frbInternalSseEncode(move: true),
+        (self as JsAsyncContextImpl).frbInternalSseEncode(move: true),
         serializer);
   }
 
   @protected
   void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
-          AsyncRuntime self, SseSerializer serializer) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
+          JsAsyncRuntime self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as AsyncRuntimeImpl).frbInternalSseEncode(move: true),
+        (self as JsAsyncRuntimeImpl).frbInternalSseEncode(move: true),
         serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext(
+          JsContext self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as JsContextImpl).frbInternalSseEncode(move: true), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+          JsRuntime self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as JsRuntimeImpl).frbInternalSseEncode(move: true), serializer);
   }
 
   @protected
@@ -1358,42 +2034,78 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
 
   @protected
   void
-      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext(
-          AsyncContext self, SseSerializer serializer) {
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext(
+          JsAsyncContext self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as AsyncContextImpl).frbInternalSseEncode(move: false),
+        (self as JsAsyncContextImpl).frbInternalSseEncode(move: false),
         serializer);
   }
 
   @protected
   void
-      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
-          AsyncRuntime self, SseSerializer serializer) {
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
+          JsAsyncRuntime self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as AsyncRuntimeImpl).frbInternalSseEncode(move: false),
+        (self as JsAsyncRuntimeImpl).frbInternalSseEncode(move: false),
         serializer);
   }
 
   @protected
   void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncContext(
-          AsyncContext self, SseSerializer serializer) {
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext(
+          JsContext self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as AsyncContextImpl).frbInternalSseEncode(move: null),
+        (self as JsContextImpl).frbInternalSseEncode(move: false), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+          JsRuntime self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as JsRuntimeImpl).frbInternalSseEncode(move: false), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncContext(
+          JsAsyncContext self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as JsAsyncContextImpl).frbInternalSseEncode(move: null),
         serializer);
   }
 
   @protected
   void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAsyncRuntime(
-          AsyncRuntime self, SseSerializer serializer) {
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsAsyncRuntime(
+          JsAsyncRuntime self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-        (self as AsyncRuntimeImpl).frbInternalSseEncode(move: null),
+        (self as JsAsyncRuntimeImpl).frbInternalSseEncode(move: null),
         serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsContext(
+          JsContext self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as JsContextImpl).frbInternalSseEncode(move: null), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerJsRuntime(
+          JsRuntime self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as JsRuntimeImpl).frbInternalSseEncode(move: null), serializer);
   }
 
   @protected
@@ -1418,37 +2130,16 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
   }
 
   @protected
-  void sse_encode_box_autoadd_eval_options(
-      EvalOptions self, SseSerializer serializer) {
+  void sse_encode_box_autoadd_js_eval_options(
+      JsEvalOptions self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_eval_options(self, serializer);
+    sse_encode_js_eval_options(self, serializer);
   }
 
   @protected
   void sse_encode_box_autoadd_js_value(JsValue self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_js_value(self, serializer);
-  }
-
-  @protected
-  void sse_encode_eval_options(EvalOptions self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_bool(self.global, serializer);
-    sse_encode_bool(self.strict, serializer);
-    sse_encode_bool(self.backtraceBarrier, serializer);
-  }
-
-  @protected
-  void sse_encode_eval_result(EvalResult self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    switch (self) {
-      case EvalResult_Ok(field0: final field0):
-        sse_encode_i_32(0, serializer);
-        sse_encode_box_autoadd_js_value(field0, serializer);
-      case EvalResult_Err(field0: final field0):
-        sse_encode_i_32(1, serializer);
-        sse_encode_String(field0, serializer);
-    }
   }
 
   @protected
@@ -1461,6 +2152,29 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
   void sse_encode_i_64(PlatformInt64 self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putPlatformInt64(self);
+  }
+
+  @protected
+  void sse_encode_js_eval_options(
+      JsEvalOptions self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self.global, serializer);
+    sse_encode_bool(self.strict, serializer);
+    sse_encode_bool(self.backtraceBarrier, serializer);
+    sse_encode_bool(self.promise, serializer);
+  }
+
+  @protected
+  void sse_encode_js_eval_result(JsEvalResult self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case JsEvalResult_Ok(field0: final field0):
+        sse_encode_i_32(0, serializer);
+        sse_encode_box_autoadd_js_value(field0, serializer);
+      case JsEvalResult_Err(field0: final field0):
+        sse_encode_i_32(1, serializer);
+        sse_encode_String(field0, serializer);
+    }
   }
 
   @protected
@@ -1574,6 +2288,12 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
   }
 
   @protected
+  void sse_encode_u_64(BigInt self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putBigUint64(self);
+  }
+
+  @protected
   void sse_encode_u_8(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint8(self);
@@ -1598,103 +2318,199 @@ class LibFjsApiImpl extends LibFjsApiImplPlatform implements LibFjsApi {
 }
 
 @sealed
-class AsyncContextImpl extends RustOpaque implements AsyncContext {
+class JsAsyncContextImpl extends RustOpaque implements JsAsyncContext {
   // Not to be used by end users
-  AsyncContextImpl.frbInternalDcoDecode(List<dynamic> wire)
+  JsAsyncContextImpl.frbInternalDcoDecode(List<dynamic> wire)
       : super.frbInternalDcoDecode(wire, _kStaticData);
 
   // Not to be used by end users
-  AsyncContextImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+  JsAsyncContextImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
       : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
     rustArcIncrementStrongCount:
-        LibFjs.instance.api.rust_arc_increment_strong_count_AsyncContext,
+        LibFjs.instance.api.rust_arc_increment_strong_count_JsAsyncContext,
     rustArcDecrementStrongCount:
-        LibFjs.instance.api.rust_arc_decrement_strong_count_AsyncContext,
+        LibFjs.instance.api.rust_arc_decrement_strong_count_JsAsyncContext,
     rustArcDecrementStrongCountPtr:
-        LibFjs.instance.api.rust_arc_decrement_strong_count_AsyncContextPtr,
+        LibFjs.instance.api.rust_arc_decrement_strong_count_JsAsyncContextPtr,
   );
 
-  Future<EvalResult> eval({required String code}) =>
-      LibFjs.instance.api.crateApiJsAsyncContextEval(that: this, code: code);
+  Future<JsEvalResult> eval({required String code}) =>
+      LibFjs.instance.api.crateApiJsJsAsyncContextEval(that: this, code: code);
 
-  Future<EvalResult> evalFile({required String path}) => LibFjs.instance.api
-      .crateApiJsAsyncContextEvalFile(that: this, path: path);
+  Future<JsEvalResult> evalFile({required String path}) => LibFjs.instance.api
+      .crateApiJsJsAsyncContextEvalFile(that: this, path: path);
 
-  Future<EvalResult> evalFileWithOptions(
-          {required String path, required EvalOptions options}) =>
-      LibFjs.instance.api.crateApiJsAsyncContextEvalFileWithOptions(
+  Future<JsEvalResult> evalFileWithOptions(
+          {required String path, required JsEvalOptions options}) =>
+      LibFjs.instance.api.crateApiJsJsAsyncContextEvalFileWithOptions(
           that: this, path: path, options: options);
 
-  Future<EvalResult> evalFunction(
+  Future<JsEvalResult> evalFunction(
           {required String module,
           required String method,
           List<JsValue>? params}) =>
-      LibFjs.instance.api.crateApiJsAsyncContextEvalFunction(
+      LibFjs.instance.api.crateApiJsJsAsyncContextEvalFunction(
           that: this, module: module, method: method, params: params);
 
-  Future<EvalResult> evalWithOptions(
-          {required String code, required EvalOptions options}) =>
-      LibFjs.instance.api.crateApiJsAsyncContextEvalWithOptions(
+  Future<JsEvalResult> evalWithOptions(
+          {required String code, required JsEvalOptions options}) =>
+      LibFjs.instance.api.crateApiJsJsAsyncContextEvalWithOptions(
           that: this, code: code, options: options);
 }
 
 @sealed
-class AsyncRuntimeImpl extends RustOpaque implements AsyncRuntime {
+class JsAsyncRuntimeImpl extends RustOpaque implements JsAsyncRuntime {
   // Not to be used by end users
-  AsyncRuntimeImpl.frbInternalDcoDecode(List<dynamic> wire)
+  JsAsyncRuntimeImpl.frbInternalDcoDecode(List<dynamic> wire)
       : super.frbInternalDcoDecode(wire, _kStaticData);
 
   // Not to be used by end users
-  AsyncRuntimeImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+  JsAsyncRuntimeImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
       : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
     rustArcIncrementStrongCount:
-        LibFjs.instance.api.rust_arc_increment_strong_count_AsyncRuntime,
+        LibFjs.instance.api.rust_arc_increment_strong_count_JsAsyncRuntime,
     rustArcDecrementStrongCount:
-        LibFjs.instance.api.rust_arc_decrement_strong_count_AsyncRuntime,
+        LibFjs.instance.api.rust_arc_decrement_strong_count_JsAsyncRuntime,
     rustArcDecrementStrongCountPtr:
-        LibFjs.instance.api.rust_arc_decrement_strong_count_AsyncRuntimePtr,
+        LibFjs.instance.api.rust_arc_decrement_strong_count_JsAsyncRuntimePtr,
   );
 
   Future<bool> executePendingJob() =>
-      LibFjs.instance.api.crateApiJsAsyncRuntimeExecutePendingJob(
+      LibFjs.instance.api.crateApiJsJsAsyncRuntimeExecutePendingJob(
         that: this,
       );
 
-  Future<void> idle() => LibFjs.instance.api.crateApiJsAsyncRuntimeIdle(
+  Future<void> idle() => LibFjs.instance.api.crateApiJsJsAsyncRuntimeIdle(
         that: this,
       );
 
   Future<bool> isJobPending() =>
-      LibFjs.instance.api.crateApiJsAsyncRuntimeIsJobPending(
+      LibFjs.instance.api.crateApiJsJsAsyncRuntimeIsJobPending(
         that: this,
       );
 
   Future<MemoryUsage> memoryUsage() =>
-      LibFjs.instance.api.crateApiJsAsyncRuntimeMemoryUsage(
+      LibFjs.instance.api.crateApiJsJsAsyncRuntimeMemoryUsage(
         that: this,
       );
 
-  Future<void> runGc() => LibFjs.instance.api.crateApiJsAsyncRuntimeRunGc(
+  Future<void> runGc() => LibFjs.instance.api.crateApiJsJsAsyncRuntimeRunGc(
         that: this,
       );
 
   Future<void> setGcThreshold({required BigInt threshold}) => LibFjs
       .instance.api
-      .crateApiJsAsyncRuntimeSetGcThreshold(that: this, threshold: threshold);
+      .crateApiJsJsAsyncRuntimeSetGcThreshold(that: this, threshold: threshold);
+
+  Future<void> setInfo({required String info}) => LibFjs.instance.api
+      .crateApiJsJsAsyncRuntimeSetInfo(that: this, info: info);
 
   Future<void> setMaxStackSize({required BigInt limit}) => LibFjs.instance.api
-      .crateApiJsAsyncRuntimeSetMaxStackSize(that: this, limit: limit);
+      .crateApiJsJsAsyncRuntimeSetMaxStackSize(that: this, limit: limit);
 
   Future<void> setMemoryLimit({required BigInt limit}) => LibFjs.instance.api
-      .crateApiJsAsyncRuntimeSetMemoryLimit(that: this, limit: limit);
+      .crateApiJsJsAsyncRuntimeSetMemoryLimit(that: this, limit: limit);
 
   Future<void> setModules({required List<JsModule> modules}) =>
       LibFjs.instance.api
-          .crateApiJsAsyncRuntimeSetModules(that: this, modules: modules);
+          .crateApiJsJsAsyncRuntimeSetModules(that: this, modules: modules);
+}
+
+@sealed
+class JsContextImpl extends RustOpaque implements JsContext {
+  // Not to be used by end users
+  JsContextImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  JsContextImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        LibFjs.instance.api.rust_arc_increment_strong_count_JsContext,
+    rustArcDecrementStrongCount:
+        LibFjs.instance.api.rust_arc_decrement_strong_count_JsContext,
+    rustArcDecrementStrongCountPtr:
+        LibFjs.instance.api.rust_arc_decrement_strong_count_JsContextPtr,
+  );
+
+  JsEvalResult eval({required String code}) =>
+      LibFjs.instance.api.crateApiJsJsContextEval(that: this, code: code);
+
+  JsEvalResult evalFile({required String path}) =>
+      LibFjs.instance.api.crateApiJsJsContextEvalFile(that: this, path: path);
+
+  JsEvalResult evalFileWithOptions(
+          {required String path, required JsEvalOptions options}) =>
+      LibFjs.instance.api.crateApiJsJsContextEvalFileWithOptions(
+          that: this, path: path, options: options);
+
+  JsEvalResult evalWithOptions(
+          {required String code, required JsEvalOptions options}) =>
+      LibFjs.instance.api.crateApiJsJsContextEvalWithOptions(
+          that: this, code: code, options: options);
+}
+
+@sealed
+class JsRuntimeImpl extends RustOpaque implements JsRuntime {
+  // Not to be used by end users
+  JsRuntimeImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  JsRuntimeImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        LibFjs.instance.api.rust_arc_increment_strong_count_JsRuntime,
+    rustArcDecrementStrongCount:
+        LibFjs.instance.api.rust_arc_decrement_strong_count_JsRuntime,
+    rustArcDecrementStrongCountPtr:
+        LibFjs.instance.api.rust_arc_decrement_strong_count_JsRuntimePtr,
+  );
+
+  bool executePendingJob() =>
+      LibFjs.instance.api.crateApiJsJsRuntimeExecutePendingJob(
+        that: this,
+      );
+
+  bool isJobPending() => LibFjs.instance.api.crateApiJsJsRuntimeIsJobPending(
+        that: this,
+      );
+
+  MemoryUsage memoryUsage() =>
+      LibFjs.instance.api.crateApiJsJsRuntimeMemoryUsage(
+        that: this,
+      );
+
+  void runGc() => LibFjs.instance.api.crateApiJsJsRuntimeRunGc(
+        that: this,
+      );
+
+  void setDumpFlags({required BigInt flags}) => LibFjs.instance.api
+      .crateApiJsJsRuntimeSetDumpFlags(that: this, flags: flags);
+
+  void setGcThreshold({required BigInt threshold}) => LibFjs.instance.api
+      .crateApiJsJsRuntimeSetGcThreshold(that: this, threshold: threshold);
+
+  void setInfo({required String info}) =>
+      LibFjs.instance.api.crateApiJsJsRuntimeSetInfo(that: this, info: info);
+
+  void setMaxStackSize({required BigInt limit}) => LibFjs.instance.api
+      .crateApiJsJsRuntimeSetMaxStackSize(that: this, limit: limit);
+
+  void setMemoryLimit({required BigInt limit}) => LibFjs.instance.api
+      .crateApiJsJsRuntimeSetMemoryLimit(that: this, limit: limit);
+
+  Future<void> setModules({required List<JsModule> modules}) =>
+      LibFjs.instance.api
+          .crateApiJsJsRuntimeSetModules(that: this, modules: modules);
 }
 
 @sealed
