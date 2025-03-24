@@ -3,8 +3,13 @@ use crate::js::value::JsonValue;
 use bytes::Bytes;
 use cookie_store::{CookieStore, RawCookie, RawCookieParseError};
 use reqwest::header::{HeaderName, HeaderValue};
+use rquickjs::class::Trace;
 use rquickjs::function::{Async, Func, Rest};
-use rquickjs::{ArrayBuffer, Ctx, Exception, FromJs, Function, IntoJs, Object, Result, Value};
+use rquickjs::{
+    class, methods, ArrayBuffer, Ctx, Exception, FromJs, Function, IntoJs, JsLifetime, Object,
+    Result, Value,
+};
+use std::cell::RefCell;
 use std::fs::OpenOptions;
 use std::io::BufWriter;
 use std::str;
@@ -101,7 +106,7 @@ async fn _fetch<'js>(ctx: Ctx<'js>, args: Rest<Value<'js>>) -> anyhow::Result<Ob
                         "HEAD" => reqwest::Method::HEAD,
                         _ => {
                             return Err(anyhow::anyhow!(
-                                "method must be one of GET, POST, PUT, DELETE, PATCH"
+                                "method must be one of GET, POST, PUT, DELETE, PATCH, HEAD"
                             ))
                         }
                     }
@@ -324,3 +329,101 @@ pub fn setup_fetch(ctx: &Ctx) -> Result<()> {
     object.set("fetch", fetch)?;
     Ok(())
 }
+
+
+
+//
+// #[derive(Trace, JsLifetime)]
+// #[class(rename_all = "camelCase")]
+// pub struct Response(RefCell<Option<reqwest::Response>>);
+//
+// #[methods(rename_all = "camelCase")]
+// impl Response {
+//     #[qjs(constructor)]
+//     pub fn new(res: reqwest::Response) -> Self {
+//         Response(RefCell::new(Some(res)))
+//     }
+//     #[qjs(get, enumerable)]
+//     pub fn status(&self) -> Option<u16> {
+//         let response = self.0.borrow_mut().take();
+//         response.map(|r| r.status().as_u16())
+//     }
+//     #[qjs(get, enumerable)]
+//     pub fn status_text(&self) -> Option<String> {
+//         self.0
+//             .borrow_mut()
+//             .take()
+//             .map(|r| r.status().canonical_reason().unwrap_or("").to_string())
+//     }
+//     #[qjs(get, enumerable)]
+//     pub fn ok(&self) -> Option<bool> {
+//         self.0.borrow_mut().take().map(|r| r.status().is_success())
+//     }
+//     #[qjs(get, enumerable)]
+//     pub fn redirected(&self) -> Option<bool> {
+//         self.0
+//             .borrow_mut()
+//             .take()
+//             .map(|r| r.url().as_str() != r.url().as_str())
+//     }
+//     #[qjs(get, enumerable)]
+//     pub fn url(&self) -> Option<String> {
+//         self.0
+//             .borrow_mut()
+//             .take()
+//             .map(|r| r.url().as_str().to_string())
+//     }
+//     #[qjs(get, enumerable)]
+//     pub fn headers<'js>(&self, ctx: Ctx<'js>) -> anyhow::Result<Option<Object>> {
+//         let response = self.0.borrow_mut().take();
+//         let headers = response.map(|r| {
+//             let headers = r.headers();
+//             let object = Object::new(ctx.clone()).unwrap();
+//             for (k, v) in headers {
+//                 object.set(k.as_str(), v.to_str()?.into_js(&ctx))?;
+//             }
+//             object
+//         });
+//         Ok(headers)
+//     }
+//
+//     pub async fn array_buffer<'js>(&self, ctx: Ctx<'js>) -> anyhow::Result<ArrayBuffer> {
+//         let response = self
+//             .0
+//             .borrow_mut()
+//             .take()
+//             .ok_or_else(|| anyhow::Error::msg("Response already consumed"))?;
+//         let bytes = response.bytes()?;
+//         Ok(ArrayBuffer::new(ctx, bytes.to_vec()))
+//     }
+//
+//     pub async fn text(&self) -> anyhow::Result<String> {
+//         let response = self
+//             .0
+//             .borrow_mut()
+//             .take()
+//             .ok_or_else(|| anyhow::Error::msg("Response already consumed"))?;
+//         let bytes = response.bytes()?;
+//         Ok(String::from_utf8(bytes.to_vec())?)
+//     }
+//
+//     pub async fn json(&self) -> anyhow::Result<JsonValue> {
+//         let response = self
+//             .0
+//             .borrow_mut()
+//             .take()
+//             .ok_or_else(|| anyhow::Error::msg("Response already consumed"))?;
+//         let v: serde_json::Value = response.json().await?;
+//         Ok(JsonValue::from(v))
+//     }
+//
+//     pub async fn blob<'js>(&self, ctx: Ctx<'js>) -> anyhow::Result<ArrayBuffer> {
+//         let response = self
+//             .0
+//             .borrow_mut()
+//             .take()
+//             .ok_or_else(|| anyhow::Error::msg("Response already consumed"))?;
+//         let bytes = response.bytes()?;
+//         Ok(ArrayBuffer::new(ctx, bytes.to_vec()))
+//     }
+// }

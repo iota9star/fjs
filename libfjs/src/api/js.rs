@@ -1,13 +1,56 @@
 use crate::api::value::JsValue;
 use crate::js::{setup_basics, setup_console};
 use anyhow::anyhow;
-use flutter_rust_bridge::frb;
+use flutter_rust_bridge::{frb, DartFnFuture};
 use rquickjs::loader::{
     BuiltinLoader, BuiltinResolver, FileResolver, ModuleLoader, NativeLoader, ScriptLoader,
 };
-pub use rquickjs::runtime::MemoryUsage;
+
 use rquickjs::{async_with, CatchResultExt, FromJs, Promise};
 use tokio::io::AsyncReadExt;
+
+#[frb(opaque)]
+pub struct MemoryUsage(rquickjs::qjs::JSMemoryUsage);
+
+macro_rules! proxy_memory_usage_getter {
+    ($($name:ident),+) => {
+        impl MemoryUsage {
+            $(
+                #[frb(sync, getter)]
+                pub fn $name(&self) -> i64 { self.0.$name }
+            )+
+        }
+    };
+}
+
+proxy_memory_usage_getter!(
+    malloc_size,
+    malloc_limit,
+    memory_used_size,
+    malloc_count,
+    memory_used_count,
+    atom_count,
+    atom_size,
+    str_count,
+    str_size,
+    obj_count,
+    obj_size,
+    prop_count,
+    prop_size,
+    shape_count,
+    shape_size,
+    js_func_count,
+    js_func_size,
+    js_func_code_size,
+    js_func_pc2line_count,
+    js_func_pc2line_size,
+    c_func_count,
+    array_count,
+    fast_array_count,
+    fast_array_elements,
+    binary_object_count,
+    binary_object_size
+);
 
 #[frb(opaque)]
 pub struct JsRuntime(rquickjs::Runtime);
@@ -17,35 +60,6 @@ impl JsRuntime {
     pub fn new() -> anyhow::Result<Self> {
         let runtime = rquickjs::Runtime::new()?;
         Ok(Self(runtime))
-    }
-
-    pub async fn set_modules(&self, modules: Vec<JsModule>) -> anyhow::Result<()> {
-        let mut builtin_resolver = BuiltinResolver::default();
-        let mut builtin_loader = BuiltinLoader::default();
-        for module in modules {
-            match module {
-                JsModule::Code(module, code) => {
-                    builtin_resolver = builtin_resolver.with_module(&module);
-                    builtin_loader = builtin_loader.with_module(&module, code);
-                }
-                JsModule::Path(module, path) => {
-                    let mut f = tokio::fs::File::open(&path).await?;
-                    let mut codes = String::new();
-                    f.read_to_string(&mut codes).await?;
-                    builtin_resolver = builtin_resolver.with_module(&module);
-                    builtin_loader = builtin_loader.with_module(&module, codes);
-                }
-            }
-        }
-        let resolver = (builtin_resolver, FileResolver::default());
-        let loader = (
-            builtin_loader,
-            ModuleLoader::default(),
-            NativeLoader::default(),
-            ScriptLoader::default(),
-        );
-        self.0.set_loader(resolver, loader);
-        Ok(())
     }
 
     #[frb(sync)]
@@ -66,7 +80,8 @@ impl JsRuntime {
     }
     #[frb(sync)]
     pub fn memory_usage(&self) -> MemoryUsage {
-        self.0.memory_usage()
+        let usage = self.0.memory_usage();
+        MemoryUsage(usage)
     }
     #[frb(sync)]
     pub fn is_job_pending(&self) -> bool {
@@ -97,16 +112,16 @@ impl JsAsyncRuntime {
         Ok(Self(runtime))
     }
 
-    pub async fn set_modules(&self, modules: Vec<JsModule>) -> anyhow::Result<()> {
+    pub async fn set_builtin_modules(&self, modules: Vec<JsBuiltinModule>) -> anyhow::Result<()> {
         let mut builtin_resolver = BuiltinResolver::default();
         let mut builtin_loader = BuiltinLoader::default();
         for module in modules {
             match module {
-                JsModule::Code(module, code) => {
+                JsBuiltinModule::Code(module, code) => {
                     builtin_resolver = builtin_resolver.with_module(&module);
                     builtin_loader = builtin_loader.with_module(&module, code);
                 }
-                JsModule::Path(module, path) => {
+                JsBuiltinModule::Path(module, path) => {
                     let mut f = tokio::fs::File::open(&path).await?;
                     let mut codes = String::new();
                     f.read_to_string(&mut codes).await?;
@@ -143,7 +158,8 @@ impl JsAsyncRuntime {
     }
 
     pub async fn memory_usage(&self) -> MemoryUsage {
-        self.0.memory_usage().await
+        let usage = self.0.memory_usage().await;
+        MemoryUsage(usage)
     }
 
     pub async fn is_job_pending(&self) -> bool {
@@ -174,38 +190,38 @@ impl JsContext {
         Ok(Self(context))
     }
     #[frb(sync)]
-    pub fn eval(&self, code: String) -> JsEvalResult {
+    pub fn eval(&self, code: String) -> JsResult {
         self.eval_with_options(code, JsEvalOptions::new())
     }
     #[frb(sync)]
-    pub fn eval_with_options(&self, code: String, options: JsEvalOptions) -> JsEvalResult {
+    pub fn eval_with_options(&self, code: String, options: JsEvalOptions) -> JsResult {
         if options.promise {
-            return JsEvalResult::Err("Promise not supported in sync context".to_string());
+            return JsResult::Err("Promise not supported in sync context".to_string());
         }
         self.0.with(|ctx| {
             if let Err(e) = setup_console(&ctx) {
-                return JsEvalResult::Err(e.to_string());
+                return JsResult::Err(e.to_string());
             }
             let res = ctx.eval_with_options(code, options.into());
-            JsEvalResult::from_result(&ctx, res)
+            JsResult::from_result(&ctx, res)
         })
     }
     #[frb(sync)]
-    pub fn eval_file(&self, path: String) -> JsEvalResult {
+    pub fn eval_file(&self, path: String) -> JsResult {
         self.eval_file_with_options(path, JsEvalOptions::new())
     }
 
     #[frb(sync)]
-    pub fn eval_file_with_options(&self, path: String, options: JsEvalOptions) -> JsEvalResult {
+    pub fn eval_file_with_options(&self, path: String, options: JsEvalOptions) -> JsResult {
         if options.promise {
-            return JsEvalResult::Err("Promise not supported in sync context".to_string());
+            return JsResult::Err("Promise not supported in sync context".to_string());
         }
         self.0.with(|ctx| {
             if let Err(e) = setup_console(&ctx) {
-                return JsEvalResult::Err(e.to_string());
+                return JsResult::Err(e.to_string());
             }
             let res = ctx.eval_file_with_options(path, options.into());
-            JsEvalResult::from_result(&ctx, res)
+            JsResult::from_result(&ctx, res)
         })
     }
 }
@@ -219,41 +235,37 @@ impl JsAsyncContext {
         Ok(Self(context))
     }
 
-    pub async fn eval(&self, code: String) -> JsEvalResult {
+    pub async fn eval(&self, code: String) -> JsResult {
         self.eval_with_options(code, JsEvalOptions::new()).await
     }
 
-    pub async fn eval_with_options(&self, code: String, options: JsEvalOptions) -> JsEvalResult {
+    pub async fn eval_with_options(&self, code: String, options: JsEvalOptions) -> JsResult {
         async_with!(self.0 => |ctx| {
             if let Err(e) = setup_basics(&ctx){
-                return JsEvalResult::Err(e.to_string());
+                return JsResult::Err(e.to_string());
             }
             let mut options = options;
             options.promise = true;
             let res = ctx.eval_with_options(code, options.into());
-            JsEvalResult::from_promise_result(&ctx, res).await
+            JsResult::from_promise_result(&ctx, res).await
         })
         .await
     }
 
-    pub async fn eval_file(&self, path: String) -> JsEvalResult {
+    pub async fn eval_file(&self, path: String) -> JsResult {
         self.eval_file_with_options(path, JsEvalOptions::new())
             .await
     }
 
-    pub async fn eval_file_with_options(
-        &self,
-        path: String,
-        options: JsEvalOptions,
-    ) -> JsEvalResult {
+    pub async fn eval_file_with_options(&self, path: String, options: JsEvalOptions) -> JsResult {
         async_with!(self.0 => |ctx| {
             if let Err(e) = setup_basics(&ctx){
-                return JsEvalResult::Err(e.to_string());
+                return JsResult::Err(e.to_string());
             }
             let mut options = options;
             options.promise = true;
             let res = ctx.eval_file_with_options(path, options.into());
-            JsEvalResult::from_promise_result(&ctx, res).await
+            JsResult::from_promise_result(&ctx, res).await
         })
         .await
     }
@@ -263,22 +275,22 @@ impl JsAsyncContext {
         module: String,
         method: String,
         params: Option<Vec<JsValue>>,
-    ) -> JsEvalResult {
+    ) -> JsResult {
         let params = params.unwrap_or_default();
         async_with!(self.0 => |ctx| {
             if let Err(e) = setup_basics(&ctx){
-                return JsEvalResult::Err(e.to_string());
+                return JsResult::Err(e.to_string());
             }
             let v = rquickjs::Module::import(&ctx, module.clone());
             if v.is_err() {
-                return JsEvalResult::Err(v.unwrap_err().to_string());
+                return JsResult::Err(v.unwrap_err().to_string());
             }
             match v.catch(&ctx) {
                 Ok(promise) => {
                     match promise.into_future::<rquickjs::Value>().await {
                         Ok(v) => {
                             if !v.is_object() {
-                                return JsEvalResult::Err(format!("Is the module({}) registered correctly?", &module));
+                                return JsResult::Err(format!("Is the module({}) registered correctly?", &module));
                             }
                             let obj = v.as_object().unwrap();
                             let m: rquickjs::Result<rquickjs::Value> = obj.get(&method);
@@ -287,125 +299,143 @@ impl JsAsyncContext {
                                     return if m.is_function() {
                                         let func = m.as_function().unwrap();
                                         let res = func.call((rquickjs::function::Rest(params),));
-                                        JsEvalResult::from_promise_result(&ctx, res).await
+                                        JsResult::from_promise_result(&ctx, res).await
                                     } else {
-                                        JsEvalResult::Err(format!("Method `{}` not found in the module({}).", &method, &module))
+                                        JsResult::Err(format!("Method `{}` not found in the module({}).", &method, &module))
                                     }
                                 }
                                 Err(e) => {
-                                    JsEvalResult::Err(e.to_string())
+                                    JsResult::Err(e.to_string())
                                 }
                             }
                         }
                         Err(e) => {
-                            JsEvalResult::Err(e.to_string())
+                            JsResult::Err(e.to_string())
                         }
                     }
                 }
-                Err(e) =>  JsEvalResult::Err(e.to_string())
+                Err(e) =>  JsResult::Err(e.to_string())
             }
         })
             .await
     }
 
-    // pub async fn with(&self, invoke: impl Fn(JsCtx) -> DartFnFuture<()>) {
+    // pub async fn run<'js>(&self, invoke: impl Fn(JsCtx<'js>) -> DartFnFuture<()>) {
     //     async_with!(self.0 => |ctx| {
-    //         invoke(JsCtx::new(&ctx)).await;
+    //         invoke(JsCtx(ctx)).await;
     //     })
     //     .await
     // }
 }
 
-// #[frb(opaque)]
-// pub struct JsCtx<'js>(rquickjs::Ctx<'js>);
-//
-// impl<'js> JsCtx<'js> {
-//     fn new(ctx: &rquickjs::Ctx) -> Self {
-//         Self(ctx.clone())
-//     }
-//
-//     #[frb(sync)]
-//     pub fn eval(&self, code: String) -> JsEvalResult {
-//         self.eval_with_options(code, JsEvalOptions::new())
-//     }
-//
-//     #[frb(sync)]
-//     pub fn eval_with_options(&self, code: String, options: JsEvalOptions) -> JsEvalResult {
-//         if options.promise {
-//             return JsEvalResult::Err("Promise not supported in sync context".to_string());
-//         }
-//         let result = self.0.eval_with_options(code, options.into());
-//         JsEvalResult::from_result(&self.0, result)
-//     }
-//
-//     pub async fn eval_promise(&self, code: String) -> JsEvalResult {
-//         self.eval_promise_with_options(code, JsEvalOptions::new())
-//     }
-//
-//     pub async fn eval_promise_with_options(
-//         &self,
-//         code: String,
-//         options: JsEvalOptions,
-//     ) -> JsEvalResult {
-//         let result = self.0.eval_with_options(code, options.into());
-//         JsEvalResult::from_promise_result(&self.0, result).await
-//     }
-//
-//     #[frb(sync)]
-//     pub fn eval_file(&self, path: String) -> JsEvalResult {
-//         self.eval_file_with_options(path, JsEvalOptions::new())
-//     }
-//
-//     #[frb(sync)]
-//     pub fn eval_file_with_options(&self, path: String, options: JsEvalOptions) -> JsEvalResult {
-//         if options.promise {
-//             return JsEvalResult::Err("Promise not supported in sync context".to_string());
-//         }
-//         let result = self.0.eval_file_with_options(path, options.into());
-//         JsEvalResult::from_result(&self.0, result)
-//     }
-// }
+#[frb(opaque)]
+pub struct JsCtx<'js>(rquickjs::Ctx<'js>);
+
+impl<'js> JsCtx<'js> {
+    fn new(ctx: &rquickjs::Ctx) -> Self {
+        Self(ctx.clone())
+    }
+
+    #[frb(sync)]
+    pub fn eval(&self, code: String) -> JsResult {
+        self.eval_with_options(code, JsEvalOptions::new())
+    }
+
+    #[frb(sync)]
+    pub fn eval_with_options(&self, code: String, options: JsEvalOptions) -> JsResult {
+        if options.promise {
+            return JsResult::Err("Promise not supported in sync context".to_string());
+        }
+        let result = self.0.eval_with_options(code, options.into());
+        JsResult::from_result(&self.0, result)
+    }
+
+    pub async fn eval_promise(&self, code: String) -> JsResult {
+        self.eval_promise_with_options(code, JsEvalOptions::new())
+    }
+
+    pub async fn eval_promise_with_options(
+        &self,
+        code: String,
+        options: JsEvalOptions,
+    ) -> JsResult {
+        let result = self.0.eval_with_options(code, options.into());
+        JsResult::from_promise_result(&self.0, result).await
+    }
+
+    #[frb(sync)]
+    pub fn eval_file(&self, path: String) -> JsResult {
+        self.eval_file_with_options(path, JsEvalOptions::new())
+    }
+
+    #[frb(sync)]
+    pub fn eval_file_with_options(&self, path: String, options: JsEvalOptions) -> JsResult {
+        if options.promise {
+            return JsResult::Err("Promise not supported in sync context".to_string());
+        }
+        let result = self.0.eval_file_with_options(path, options.into());
+        JsResult::from_result(&self.0, result)
+    }
+}
+
+#[frb(opaque)]
+pub struct JsModule<'js>(rquickjs::Module<'js>);
+
+impl JsModule {
+    pub fn declare(ctx: JsCtx, name: String, source: String) -> anyhow::Result<Self> {
+        let module = rquickjs::Module::declare(ctx.0, name, source)?;
+        Ok(Self(module))
+    }
+
+    pub async fn evaluate(ctx: JsCtx, name: String, source: String) -> JsResult {
+        let promise = rquickjs::Module::evaluate(ctx.0.clone(), name, source);
+        JsResult::from_promise_result(&ctx.0, promise).await
+    }
+}
 
 #[derive(Debug)]
 #[frb(dart_metadata = ("freezed", "immutable"), dart_code = "
-  bool get isOk => this is JsEvalResult_Ok;
-  bool get isErr => this is JsEvalResult_Err;
-  JsValue get ok => (this as JsEvalResult_Ok).field0;
-  String get err => (this as JsEvalResult_Err).field0;
+  bool get isOk => this is JsResult_Ok;
+  bool get isErr => this is JsResult_Err;
+  JsValue get ok => (this as JsResult_Ok).field0;
+  String get err => (this as JsResult_Err).field0;
 ")]
-pub enum JsEvalResult {
+pub enum JsResult {
     Ok(JsValue),
     Err(String),
 }
 
-impl JsEvalResult {
+impl JsResult {
     async fn from_promise_result<'js>(
         ctx: &rquickjs::Ctx<'js>,
         res: rquickjs::Result<Promise<'js>>,
     ) -> Self {
         if res.is_err() {
-            return JsEvalResult::Err(res.unwrap_err().to_string());
+            return JsResult::Err(res.unwrap_err().to_string());
         }
         match res.catch(ctx) {
             Ok(promise) => match promise.into_future::<rquickjs::Value>().await {
                 Ok(v) => match JsValue::from_js(ctx, v) {
-                    Ok(v) => JsEvalResult::Ok(v),
-                    Err(e) => JsEvalResult::Err(e.to_string()),
+                    Ok(v) => JsResult::Ok(v),
+                    Err(e) => JsResult::Err(e.to_string()),
                 },
-                Err(e) => JsEvalResult::Err(e.to_string()),
+                Err(e) => JsResult::Err(e.to_string()),
             },
-            Err(e) => JsEvalResult::Err(e.to_string()),
+            Err(e) => JsResult::Err(e.to_string()),
         }
     }
 
-    fn from_result<'js>(ctx: &rquickjs::Ctx<'js>, res: rquickjs::Result<rquickjs::Value<'js>>) -> Self {
+    fn from_result<'js>(
+        ctx: &rquickjs::Ctx<'js>,
+        res: rquickjs::Result<rquickjs::Value<'js>>,
+    ) -> Self {
         res.catch(ctx)
             .map(|v| JsValue::from_js(ctx, v))
             .map_or_else(
-                |e| JsEvalResult::Err(e.to_string()),
+                |e| JsResult::Err(e.to_string()),
                 |v| match v {
-                    Ok(v) => JsEvalResult::Ok(v),
-                    Err(e) => JsEvalResult::Err(e.to_string()),
+                    Ok(v) => JsResult::Ok(v),
+                    Err(e) => JsResult::Err(e.to_string()),
                 },
             )
     }
@@ -445,12 +475,12 @@ impl JsEvalOptions {
 
 #[frb(dart_metadata = ("freezed", "immutable"))]
 #[derive(Debug, Clone, Hash, Eq, PartialEq, Ord, PartialOrd)]
-pub enum JsModule {
+pub enum JsBuiltinModule {
     Code(String, String),
     Path(String, String),
 }
 
-impl JsModule {
+impl JsBuiltinModule {
     #[frb(sync)]
     pub fn new(module: String, code: Option<String>, path: Option<String>) -> anyhow::Result<Self> {
         match (code, path) {
@@ -474,7 +504,7 @@ impl JsModule {
 
 #[cfg(test)]
 mod test {
-    use crate::api::js::{JsAsyncContext, JsAsyncRuntime, JsModule};
+    use crate::api::js::{JsAsyncContext, JsAsyncRuntime, JsBuiltinModule};
     use crate::api::value::JsValue;
 
     #[tokio::test]
@@ -484,8 +514,8 @@ mod test {
             .init();
         let rt = JsAsyncRuntime::new().unwrap();
         let ctx = JsAsyncContext::from(&rt).await.unwrap();
-        rt.set_modules(vec![JsModule::Code("test".to_string(),  // language=javascript
-                r#"
+        rt.set_builtin_modules(vec![JsBuiltinModule::Code("test".to_string(),  // language=javascript
+                                                  r#"
             export async function test(){
                 console.log(arguments);
                 console.debug(arguments);
@@ -508,7 +538,7 @@ mod test {
                 console.log(await fetch('https://httpbin.org/post', { method: 'POST', body: JSON.stringify({ hello: "world" }) }).then((res) => res.json()));
                 return arguments;
             }
-            "#.to_string(),)]).await.unwrap();
+            "#.to_string(), )]).await.unwrap();
         let r = ctx
             .eval_function(
                 "test".to_string(),
@@ -565,22 +595,9 @@ mod test {
     //         .await;
     //     println!("{:?}", v);
     // }
-    // #[tokio::test]
-    // async fn test4() {
-    //     let engine = JsEngine::new(Some(vec![JsModule {
-    //         name: "test".to_string(),
-    //         code: Some("export async function test(){ return 1; }".to_string()),
-    //         path: None,
-    //     }]))
-    //         .await
-    //         .unwrap();
-    //     let r = engine
-    //         .call_method("test".to_string(), "test".to_string(), None)
-    //         .await;
-    //     println!("{:?}", r);
-    //     let r = engine.eval("(()=>{console.log(1);return Promise.resolve(1);})()".to_string()).await;
-    //     println!("{:?}", r);
-    //     let r = engine.eval("1+1".to_string()).await;
-    //     println!("{:?}", r);
-    // }
+    #[tokio::test]
+    async fn test4() {
+        let rt = JsAsyncRuntime::new().unwrap();
+        let context = JsAsyncContext::from(&rt).await.unwrap();
+    }
 }

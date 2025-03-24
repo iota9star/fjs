@@ -40,6 +40,14 @@ final jsCtx = (() async {
     JsModule.code("test", test),
     const JsModule.code("test2", codes),
   ]);
+  await rt.setModules(modules: [
+    JsModule.code("test", test),
+    const JsModule.code("test2", codes),
+  ]);
+  await rt.setModules(modules: [
+    JsModule.code("test", test),
+    const JsModule.code("test2", codes),
+  ]);
   return JsAsyncContext.from(rt: rt);
 })();
 
@@ -56,14 +64,14 @@ class MyApp extends StatelessWidget {
             ElevatedButton(
                 onPressed: () async {
                   final ctx = await jsCtx;
-                  ctx.eval(code: "1n+1n").then((value) => print(value));
-                  ctx.evalFunction(module: "test", method: "price", params: [
-                    JsValue.from(
-                        "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN,So11111111111111111111111111111111111111112"
-                            .split(","))
-                  ]).then((value) => print(value.ok.value));
-                  ctx.evalFunction(module: 'test2', method: 'test')
-                      .then((value) => print(value));
+                  print(ctx.hashCode);
+                  // ctx.evalFunction(module: "test", method: "price", params: [
+                  //   JsValue.from(
+                  //       "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN,So11111111111111111111111111111111111111112"
+                  //           .split(","))
+                  // ]).then((value) => print(value.ok.value));
+                  // ctx.evalFunction(module: 'test2', method: 'test')
+                  //     .then((value) => print(value));
                 },
                 child: Text("fetch")),
           ],
